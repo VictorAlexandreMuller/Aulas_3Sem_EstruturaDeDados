@@ -1,5 +1,6 @@
 package mainPackage;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class Main {
@@ -7,6 +8,7 @@ public class Main {
     public static void main(String[] args) {
 
         ListaEncadeada listaE = new ListaEncadeada();
+        ArrayList<Pedido> pedidosEntreguess = new ArrayList<>();
         Pilha pilhaPizzaria = new Pilha(20);
         Fila filaPizzaria = new Fila(20);
 
@@ -17,17 +19,15 @@ public class Main {
 
         while (opcao != 8) {
             opcao = Integer.parseInt(JOptionPane.showInputDialog(null,
-                    "Escolha uma Opçao \n"
-                    + "OK 1- Adicionar Novo Pedido\n"
-                    + "OK 2- Cancelar Pedido\n"
-                    + "OK 3- Listar Todos os Pedidos\n"
-                    + "OK 4- Incluir pedidos para preparo\n"
-                    + "OK 5- Incluir pedidos para entrega\n"
-                    + "OK 6- Gerar relatório para entrega\n\n"
-                                      
-                    + "7- Informar entrega realizada\n"
-                                                        
-                    + "OK 8- Sair\n"));
+                    "Escolha uma Opção: \n\n"
+                    + "1- Adicionar Novo Pedido\n"
+                    + "2- Cancelar Pedido\n"
+                    + "3- Listar Todos os Pedidos\n"
+                    + "4- Incluir pedidos para preparo\n"
+                    + "5- Incluir pedidos para entrega\n"
+                    + "6- Gerar relatório para entrega\n"            
+                    + "7- Informar entrega realizada\n"                              
+                    + "8- Sair\n\n"));
 
             switch (opcao) {
                 case 1:
@@ -124,6 +124,8 @@ public class Main {
                         relatorio += "Código do Pedido: " + pedido.getCodigoDoPedido() + "\n";
                         relatorio += "Endereço: " + pedido.getEndereco() + "\n";
                         relatorio += "Distância: " + pedido.getDistancia() + " km\n\n";
+                        entregasRealizadas += 1;
+                        pedidosEntreguess.add(pedido);
                     }
                     JOptionPane.showMessageDialog(null, relatorio);
                     filaPizzaria.exibeFila();
@@ -131,16 +133,18 @@ public class Main {
                     break;
 
                 case 7:
-                    
                     if (entregasRealizadas < 2) {
-                        JOptionPane.showMessageDialog(null, "Não é possível informar entrega realizada. "
-                                + "Ainda é necessário realizar mais " + (2 - entregasRealizadas) + " entregas.");
+                        JOptionPane.showMessageDialog(null, "Não é possível informar entrega realizada. Ainda é necessário realizar mais " + (2 - entregasRealizadas) + " entregas.");
                         break;
                     }
 
-                    // Remove apenas os pedidos que foram entregues nessas duas entregas
-                    listaE.removerPedidosEntregues();
+                    // Exclui os pedidos entregues da lista principal
+                    for (Pedido pedido : pedidosEntreguess) {
+                        listaE.excluiPedido(pedido);
+                    }
+
                     JOptionPane.showMessageDialog(null, "Pedidos entregues foram removidos da lista com sucesso.");
+                    listaE.exibeLista();
                     break;
                     
                 case 8:
