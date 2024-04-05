@@ -79,7 +79,7 @@ public class ListaEncadeada {
         IntNoSimples temp_no = primeiro;
         while (temp_no != null)
         {
-            if (temp_no.valor == buscaValor)
+            if (temp_no.valor.getCodigoDoPedido() == buscaValor)
             {
                 JOptionPane.showMessageDialog(null, "No " + temp_no.valor + " posição " + i);
                 return temp_no;	
@@ -92,7 +92,7 @@ public class ListaEncadeada {
     void excluiNo (int valor){
         IntNoSimples temp_no = primeiro;
         IntNoSimples anterior_no=null;
-        while (temp_no != null && temp_no.valor != valor){
+        while (temp_no != null && temp_no.valor.getCodigoDoPedido() != valor){
             anterior_no = temp_no;
             temp_no = temp_no.prox;
         }
@@ -114,7 +114,11 @@ public class ListaEncadeada {
         int i = 0;
         while (temp_no != null)
         {
-            System.out.println("Saida - Valor" + temp_no.valor + " posição " + i);
+            System.out.println("Numero do pedido: " + temp_no.valor.getCodigoDoPedido() + " - " +
+                               "Descricao do pedido: " + temp_no.valor.getDescricao() + " - " +
+                               "Endereco do pedido: " + temp_no.valor.getEndereco()+ " - " +
+                               "Distancia do pedido: " + temp_no.valor.getDistancia()+ " - " +
+                               "Posicao: " + i + " NA LISTA ENCADEADA");
                             temp_no = temp_no.prox;
             i++;
         }
