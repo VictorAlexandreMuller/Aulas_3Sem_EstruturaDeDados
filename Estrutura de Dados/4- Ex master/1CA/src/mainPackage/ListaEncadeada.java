@@ -126,31 +126,27 @@ public class ListaEncadeada {
         }
         System.out.println("------- FIM ------");
     }
-    
-    void removerPedidosEntregues() {
-        IntNoSimples tempNo = primeiro;
-        IntNoSimples anteriorNo = null;
 
-        while (tempNo != null) {
-            Pedido pedido = tempNo.valor;
-            if (pedido.isEntregue()) { // Verifica se o pedido foi entregue
-                if (anteriorNo == null) { // Se o pedido for o primeiro da lista
-                    primeiro = tempNo.prox;
-                } else {
-                    anteriorNo.prox = tempNo.prox;
-                }
-
-                if (tempNo == ultimo) { // Se o pedido for o último da lista
-                    ultimo = anteriorNo;
-                }
-
-                tempNo = tempNo.prox; // Avança para o próximo nó
+    void excluiPedido(Pedido pedido) {
+        IntNoSimples temp_no = primeiro;
+        IntNoSimples anterior_no = null;
+        while (temp_no != null && temp_no.valor != pedido) {
+            anterior_no = temp_no;
+            temp_no = temp_no.prox;
+        }
+        if (temp_no == primeiro) {
+            if (temp_no.prox != null) {
+                primeiro = temp_no.prox;
             } else {
-                anteriorNo = tempNo;
-                tempNo = tempNo.prox;
+                primeiro = null;
             }
+        } else {
+            anterior_no.prox = temp_no.prox;
+        }
+
+        if (ultimo == temp_no) {
+            ultimo = anterior_no;
         }
     }
-    
     
 }
