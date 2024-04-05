@@ -81,7 +81,7 @@ public class ListaEncadeada {
         {
             if (temp_no.valor.getCodigoDoPedido() == buscaValor)
             {
-                JOptionPane.showMessageDialog(null, "No " + temp_no.valor + " posição " + i);
+                JOptionPane.showMessageDialog(null, "Pedido de número '" + temp_no.valor.getCodigoDoPedido() + "' adicionado à posição '" + i + "' da fila para preparos.");
                 return temp_no;	
             }
             i++;
@@ -91,7 +91,7 @@ public class ListaEncadeada {
     }
     void excluiNo (int valor){
         IntNoSimples temp_no = primeiro;
-        IntNoSimples anterior_no=null;
+        IntNoSimples anterior_no = null;
         while (temp_no != null && temp_no.valor.getCodigoDoPedido() != valor){
             anterior_no = temp_no;
             temp_no = temp_no.prox;
@@ -112,15 +112,45 @@ public class ListaEncadeada {
     void exibeLista(){
         IntNoSimples temp_no = primeiro;
         int i = 0;
+        System.out.println("----- INICIO -----");
         while (temp_no != null)
         {
-            System.out.println("Numero do pedido: " + temp_no.valor.getCodigoDoPedido() + " - " +
+            System.out.println(
+                               "Numero do pedido: " + temp_no.valor.getCodigoDoPedido() + " - " +
                                "Descricao do pedido: " + temp_no.valor.getDescricao() + " - " +
                                "Endereco do pedido: " + temp_no.valor.getEndereco()+ " - " +
                                "Distancia do pedido: " + temp_no.valor.getDistancia()+ " - " +
                                "Posicao: " + i + " NA LISTA ENCADEADA");
-                            temp_no = temp_no.prox;
+                               temp_no = temp_no.prox;
             i++;
         }
+        System.out.println("------- FIM ------");
     }
+    
+    void removerPedidosEntregues() {
+        IntNoSimples tempNo = primeiro;
+        IntNoSimples anteriorNo = null;
+
+        while (tempNo != null) {
+            Pedido pedido = tempNo.valor;
+            if (pedido.isEntregue()) { // Verifica se o pedido foi entregue
+                if (anteriorNo == null) { // Se o pedido for o primeiro da lista
+                    primeiro = tempNo.prox;
+                } else {
+                    anteriorNo.prox = tempNo.prox;
+                }
+
+                if (tempNo == ultimo) { // Se o pedido for o último da lista
+                    ultimo = anteriorNo;
+                }
+
+                tempNo = tempNo.prox; // Avança para o próximo nó
+            } else {
+                anteriorNo = tempNo;
+                tempNo = tempNo.prox;
+            }
+        }
+    }
+    
+    
 }

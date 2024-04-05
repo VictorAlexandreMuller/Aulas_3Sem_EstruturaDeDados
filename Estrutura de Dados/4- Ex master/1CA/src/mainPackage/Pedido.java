@@ -1,16 +1,19 @@
 package mainPackage;
 
 public class Pedido {
+    private static int proximoCodigo = 1;
     private int codigoDoPedido;
     private String descricao;
     private String endereco;
     private int distancia;
+    private boolean entregue;
 
     public Pedido() {
+        this.codigoDoPedido = proximoCodigo++;
     }
 
-    public Pedido(int codigoDoPedido, String descricao, String endereco, int distancia) {
-        this.codigoDoPedido = codigoDoPedido;
+    public Pedido(String descricao, String endereco, int distancia) {
+        this.codigoDoPedido = proximoCodigo++;
         this.descricao = descricao;
         this.endereco = endereco;
         this.distancia = distancia;
@@ -48,7 +51,12 @@ public class Pedido {
         this.distancia = distancia;
     }
 
-    
-    
+    public boolean isEntregue() {
+        return entregue;
+    }
+
+    public void marcarEntregue() {
+        this.entregue = true;
+    }
     
 }

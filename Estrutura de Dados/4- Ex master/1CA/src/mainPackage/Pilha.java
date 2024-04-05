@@ -48,14 +48,17 @@ public class Pilha {
     }
     public void ExibePilha(){
         if(vazia() == true){
+            System.out.println("Pilha Vazia.");
+            /*
             JOptionPane.showMessageDialog(null, 
-                    "PILHA VAZIA!");
+                    "PILHA VAZIA!"); */
         }
         else{
             for(int i=topo; i>=0; i--){
-                System.out.println("Pedido de numero: " 
+                System.out.println("PILHA: Pedido de numero: " 
                         + vetor[i].getCodigoDoPedido() + " - Se encontra na posicao: " + i + " da pilha.");
             }
         }
+        System.out.println(" ");
     }
 }
