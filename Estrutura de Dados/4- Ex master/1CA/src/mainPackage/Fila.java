@@ -36,6 +36,20 @@ public class Fila {
 		else
 			System.out.println("Fila Cheia");
 		} 
+        
+        public Pedido desenfileirar() {
+        if (!vazia()) {
+            Pedido elem = vetor[inicio];
+            inicio = (inicio + 1) % tamanho; // Atualiza o início considerando uma fila circular
+            total--;
+            return elem;
+        } else {
+            System.out.println("Fila vazia");
+            return null; // Ou lançar uma exceção, dependendo do tratamento que deseja fazer
+        }
+    }
+        
+        /* DO PROFESSOR
 	public String desenfileirar(){
 		String elem ; 
 		if (vazia() == false)
@@ -47,9 +61,37 @@ public class Fila {
 		}else
 			elem = "Fila vazia"; 
 		return elem; 
-	}
-	public void exibeFila(){
-	for (int i = inicio; i < fim; i++)
-		System.out.println("Posicao da fila: " + i + " Codigo do Pedido " + vetor[i].getCodigoDoPedido());
-	}
+	   }
+        */
+
+        public void exibeFila() {
+        if (vazia() == true) {
+            System.out.println("Fila Vazia.");
+            /*
+            JOptionPane.showMessageDialog(null, 
+                    "FILA VAZIA!"); */
+        } else {
+            for (int i = inicio; i < fim; i++) {
+                System.out.println("FILA: Pedido de numero: " + vetor[i].getCodigoDoPedido() + " - Se encontra na posicao: " + i + " da fila.");
+            }
+        }
+        System.out.println(" ");
+    }
+
+
+        // Novos metodos criados fora do escopo do professor ------------------------------
+        
+        public int tamanho(){
+            return total;
+        }
+        
+        public Pedido consultar(int j) {
+        if (j >= 0 && j < total) {
+            return vetor[(inicio + j) % tamanho];
+        } else {
+            System.out.println("Posicao invalida na fila");
+            return null;
+        }
+    }
+        
 }
