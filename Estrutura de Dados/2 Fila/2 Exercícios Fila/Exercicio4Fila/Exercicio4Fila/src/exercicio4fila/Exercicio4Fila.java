@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package exercicio4fila;
 
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author bruno
- */
 public class Exercicio4Fila {
     public static void main(String[] args) {
         Fila filaProcesso = new Fila(20);
@@ -18,7 +10,8 @@ public class Exercicio4Fila {
         
         do{
             opcao = Integer.parseInt(
-          JOptionPane.showInputDialog("1 - Inserir processo na fila\n"
+          JOptionPane.showInputDialog(
+                  "1 - Inserir processo na fila\n"
                 + "2 - Retirar processo mais antigo\n"
                 + "3 - Exibir os processos na fila\n"
                 + "0 - Sair\n"

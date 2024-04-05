@@ -6,12 +6,12 @@ public class Pilha {
     //Declarando os atributos da classe
     int topo;
     int tamanho;
-    Object vetor[];
+    Pedido vetor[];
     
     Pilha(int tam){
         topo = -1; //Marca que a pilha está vazia
         tamanho = tam;
-        vetor = new Object[tam];
+        vetor = new Pedido[tam];
     }
     public boolean vazia(){
         if (topo == -1)
@@ -25,7 +25,7 @@ public class Pilha {
         else
             return false;
     }
-    public void empilhar(Object elem){
+    public void empilhar(Pedido elem){
         if (cheia() == false){
             topo++;
             vetor[topo]=elem;
@@ -35,10 +35,10 @@ public class Pilha {
                     "PILHA CHEIA!");
         }
     }
-    public Object desempilhar(){
-        Object valorDesempilhado;
+    public Pedido desempilhar(){
+        Pedido valorDesempilhado;
         if(vazia() == true){
-            valorDesempilhado = "Pilha Vazia";
+            valorDesempilhado = null;
         }
         else{
             valorDesempilhado = vetor[topo]; 
@@ -53,8 +53,8 @@ public class Pilha {
         }
         else{
             for(int i=topo; i>=0; i--){
-                System.out.println("Elemento " 
-                        + vetor[i] + " - posição " + i);
+                System.out.println("Pedido de numero: " 
+                        + vetor[i].getCodigoDoPedido() + " - Se encontra na posicao: " + i + " da pilha.");
             }
         }
     }

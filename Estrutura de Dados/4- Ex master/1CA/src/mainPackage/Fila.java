@@ -5,14 +5,14 @@ public class Fila {
     private int inicio;
     private int fim;
     private int total;
-    private int vetor[]; 
+    private Pedido vetor[]; 
     
     public Fila(int tam){
 		inicio = 0;
 		fim = 0;
 		total = 0;
 		tamanho = tam;
-		vetor = new int [tam];
+		vetor = new Pedido [tam];
 	}
 	public boolean vazia() {
 		if (total == 0)
@@ -26,7 +26,7 @@ public class Fila {
 	else
 		return false;
 	}
-	public void enfileirar(int elem) {
+	public void enfileirar(Pedido elem) {
 		if (!cheia())
 		{ 
 			vetor[fim] = elem;
@@ -50,6 +50,6 @@ public class Fila {
 	}
 	public void exibeFila(){
 	for (int i = inicio; i < fim; i++)
-		System.out.println("posicao " + i + " valor " + vetor[i]);
+		System.out.println("Posicao da fila: " + i + " Codigo do Pedido " + vetor[i].getCodigoDoPedido());
 	}
 }

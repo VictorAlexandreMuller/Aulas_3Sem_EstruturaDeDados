@@ -1,9 +1,9 @@
 package mainPackage;
 
 public class IntNoSimples {
-    int valor;
+    Pedido valor;
     IntNoSimples prox;
-    IntNoSimples(int ValorNo){
+    IntNoSimples(Pedido ValorNo){
         valor = ValorNo;
         prox = null;
     }

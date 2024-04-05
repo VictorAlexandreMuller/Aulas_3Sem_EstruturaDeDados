@@ -4,62 +4,98 @@ import javax.swing.JOptionPane;
 
 public class Main {
 
-    int i = 0;
-    IntNoSimples temp_no;
-    int valor;
-
     public static void main(String[] args) {
         ListaEncadeada listaE = new ListaEncadeada();
-        int opcao = 1, valor, posicao;
+        Pilha pilhaPizzaria = new Pilha(20);
+        Fila filaPizzaria = new Fila(20);
+        
+        int opcao = 1, codigoDoPedido, distancia;
+        String descricao, endereco;
+        int i = 0;
+        IntNoSimples temp_no;
 	while (opcao != 7) { 
 		opcao = Integer.parseInt (JOptionPane.showInputDialog(null, 
                         "Escolha uma Opçao \n" +
-                        "1-Inserir Nó no início \n" + 
-                        "2-Inserir Nó no fim \n" +
-                        "3-Inserir Nó em uma posição\n" +
-                        "4-Localizar Nó \n" + 
-                        "5-Excluir Nó \n" +
-                        "6-Exibir lista \n" +
-                        "7-Sair"));
+                                
+                        "1- Adicionar Novo Pedido\n" +
+                        "2- Cancelar Pedido\n" +
+                        "3- Listar Todos os Pedidos\n" +
+                        "4- Incluir pedidos para preparo\n" +
+                        "5- Incluir pedidos para entrega\n" +
+                        "6- Gerar relatório para entrega\n" +
+                        "7- Informar entrega realizada\n" +
+                        "8- Sair\n"));
+                
 		switch (opcao) {
-		case 1 :
-			valor = Integer.parseInt (JOptionPane.showInputDialog(null,
-                                "Inserir um Nó no início da lista\n" + 
-                                "Digite um valor"));
-			listaE.insereNo_inicio(new IntNoSimples(valor));
-			break;
-		case 2 :
-			valor = Integer.parseInt (JOptionPane.
-			showInputDialog(null,
-                                "Inserir um Nó no final da lista \n" +
-                                "Digite um valor"));
-			listaE.insereNo_fim(new IntNoSimples(valor));
-			break;
-		case 3 :
-			valor = Integer.parseInt (JOptionPane.showInputDialog(null, 
-                                "Inserir um Nó em uma posição \n" + 
-                                "Digite um valor"));
-                        posicao = Integer.parseInt (JOptionPane.showInputDialog(null,
-                          "Digite a posição"));
-                        listaE.insereNo_posicao(new IntNoSimples(valor),posicao);
-			break;
-		case 4:
-			valor = Integer.parseInt (JOptionPane.showInputDialog(null,
-                                "Localiza um valor \n" + 
-                                "Digite um valor"));
-			listaE.buscaNo(valor);
+                    case 1:
+                        codigoDoPedido = Integer.parseInt(JOptionPane.
+                                showInputDialog(null,
+                                        "Inserir um novo pedido no final da lista \n"
+                                        + "Digite o código do pedido:"));
+                        descricao = JOptionPane.
+                                showInputDialog(null,
+                                        "Inserir um novo pedido no final da lista \n"
+                                        + "Digite a descrição do pedido:");
+                        endereco = JOptionPane.
+                                showInputDialog(null,
+                                        "Inserir um novo pedido no final da lista \n"
+                                        + "Digite o endereço do pedido:");
+                        distancia = Integer.parseInt(JOptionPane.
+                                showInputDialog(null,
+                                        "Inserir um novo pedido no final da lista \n"
+                                        + "Digite a distância do pedido:"));
+                        
+                        listaE.insereNo_fim(new IntNoSimples(new Pedido(codigoDoPedido, descricao, endereco, distancia)));
                         break;
-		case 5:
-			valor = Integer.parseInt (JOptionPane.showInputDialog(null, 
-                                "Exclui um nó da lista \n" +
-                                "Digite um valor"));
-			listaE.excluiNo(valor);
-			break;
-		case 6:
-			JOptionPane.showMessageDialog(null,
-                          "Exibe a lista");
+                        
+                    case 2:
+                        codigoDoPedido = Integer.parseInt(JOptionPane.showInputDialog(null,
+                                "Cancelar Pedido \n"
+                                + "Digite o código do pedido a ser cancelado"));
+                        listaE.excluiNo(codigoDoPedido);
+                        break;
+                        
+                    case 3:
+                        JOptionPane.showMessageDialog(null,
+                          "Lista exibida!");
 			listaE.exibeLista();
+                        break;
+                        
+                    case 4:
+                        codigoDoPedido = Integer.parseInt(
+                        JOptionPane.showInputDialog(
+                        "Informe o número do pedido:"));
+                        
+                        int tamanhoLista = listaE.ContarNos();
+                        
+                        for (i = 1; i < 4; i++) {
+                            filaPizzaria.enfileirar(listaE.buscaNo(i).valor);
+                        }
+                        filaPizzaria.exibeFila();
+                        break;
+                        
+		    case 5:
+                        codigoDoPedido = Integer.parseInt(JOptionPane.showInputDialog(
+                                "Qual pedido gostaria de encaminhar para a entrega? (Digite o código a ser empilhado)"));
+                        
+                        for (i = 1; i < 4; i++) {
+                            pilhaPizzaria.empilhar(listaE.buscaNo(i).valor);
+                        }
 			break;
+                        
+                    case 6:
+                        System.out.println("Pilha de Pedidos a serem entregue");
+                        pilhaPizzaria.ExibePilha();
+			break;
+                        
+                    case 7:
+                        
+			
+			break;
+                        
+                    case 8:
+                        System.exit(0);
+                        
 		default : JOptionPane.showMessageDialog(null,
                           "Sair");
             }

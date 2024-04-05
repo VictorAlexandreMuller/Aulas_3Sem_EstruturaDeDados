@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package correcaoex5pilha;
 
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author bruno
- */
 public class CorrecaoEx5Pilha {
 
     public static void main(String[] args) {
@@ -19,9 +11,9 @@ public class CorrecaoEx5Pilha {
         
         do{
             op=Integer.parseInt(JOptionPane.showInputDialog(
-            "1 - Visitar um novo site\n" +
-            "2 - Voltar ao site anterior\n" + 
-            "3 - Sair\n"
+                "1 - Visitar um novo site\n" +
+                "2 - Voltar ao site anterior\n" + 
+                "3 - Sair\n"
             ));
 
             switch(op){
