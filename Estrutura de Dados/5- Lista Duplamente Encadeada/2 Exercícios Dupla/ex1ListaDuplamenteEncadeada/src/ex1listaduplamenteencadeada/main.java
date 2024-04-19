@@ -28,6 +28,7 @@ public class main {
                     break;
 
                 case 2:
+                    // temp_no é um nó temporário que armazena o valor do nó solicitado
                     IntNoDuplo temp_no = listaDupla.primeiro;
                     while (temp_no != null) {
                         System.out.println(temp_no.valor);
