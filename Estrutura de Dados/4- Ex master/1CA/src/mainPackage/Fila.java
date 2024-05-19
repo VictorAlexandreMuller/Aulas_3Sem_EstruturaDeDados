@@ -1,43 +1,48 @@
 package mainPackage;
 
 public class Fila {
+
     private int tamanho;
     private int inicio;
     private int fim;
     private int total;
-    private Pedido vetor[]; 
-    
-    public Fila(int tam){
-		inicio = 0;
-		fim = 0;
-		total = 0;
-		tamanho = tam;
-		vetor = new Pedido [tam];
-	}
-	public boolean vazia() {
-		if (total == 0)
-			return true;
-		else
-			return false;
-	}
-	public boolean cheia() {
-	if (total == tamanho)
-		return true;
-	else
-		return false;
-	}
-	public void enfileirar(Pedido elem) {
-		if (!cheia())
-		{ 
-			vetor[fim] = elem;
-			fim++;
-			total++;
-		}
-		else
-			System.out.println("Fila Cheia");
-		} 
-        
-        public Pedido desenfileirar() {
+    private Pedido vetor[];
+
+    public Fila(int tam) {
+        inicio = 0;
+        fim = 0;
+        total = 0;
+        tamanho = tam;
+        vetor = new Pedido[tam];
+    }
+
+    public boolean vazia() {
+        if (total == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean cheia() {
+        if (total == tamanho) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void enfileirar(Pedido elem) {
+        if (!cheia()) {
+            vetor[fim] = elem;
+            fim++;
+            total++;
+        } else {
+            System.out.println("Fila Cheia");
+        }
+    }
+
+    public Pedido desenfileirar() {
         if (!vazia()) {
             Pedido elem = vetor[inicio];
             inicio = (inicio + 1) % tamanho; // Atualiza o início considerando uma fila circular
@@ -48,8 +53,8 @@ public class Fila {
             return null; // Ou lançar uma exceção, dependendo do tratamento que deseja fazer
         }
     }
-        
-        /* DO PROFESSOR
+
+    /* DO PROFESSOR
 	public String desenfileirar(){
 		String elem ; 
 		if (vazia() == false)
@@ -62,9 +67,8 @@ public class Fila {
 			elem = "Fila vazia"; 
 		return elem; 
 	   }
-        */
-
-        public void exibeFila() {
+     */
+    public void exibeFila() {
         if (vazia() == true) {
             System.out.println("Fila Vazia.");
             /*
@@ -78,14 +82,12 @@ public class Fila {
         System.out.println(" ");
     }
 
+    // Novos metodos criados fora do escopo do professor ------------------------------
+    public int tamanho() {
+        return total;
+    }
 
-        // Novos metodos criados fora do escopo do professor ------------------------------
-        
-        public int tamanho(){
-            return total;
-        }
-        
-        public Pedido consultar(int j) {
+    public Pedido consultar(int j) {
         if (j >= 0 && j < total) {
             return vetor[(inicio + j) % tamanho];
         } else {
@@ -93,5 +95,5 @@ public class Fila {
             return null;
         }
     }
-        
+
 }
