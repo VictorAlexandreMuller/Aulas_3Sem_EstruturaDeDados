@@ -2,6 +2,7 @@ package mainPackage;
 
 public class Pedido {
     private static int proximoCodigo = 1;
+    
     private int codigoDoPedido;
     private String descricao;
     private String endereco;
