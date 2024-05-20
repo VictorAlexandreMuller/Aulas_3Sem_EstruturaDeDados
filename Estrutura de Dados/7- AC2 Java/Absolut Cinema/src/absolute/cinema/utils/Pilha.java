@@ -1,4 +1,4 @@
-package absolute.cinema;
+package absolute.cinema.utils;
 
 import javax.swing.JOptionPane;
 
@@ -9,7 +9,7 @@ public class Pilha {
     int tamanho;
     Object vetor[];
 
-    Pilha(int tam) {
+    public Pilha(int tam) {
         topo = -1; //Marca que a pilha está vazia
         tamanho = tam;
         vetor = new Object[tam];
