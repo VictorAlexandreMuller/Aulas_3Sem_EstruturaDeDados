@@ -1,20 +1,15 @@
-package absolute.cinema;
-
-import java.util.ArrayList;
-import java.util.List;
+package absolute.cinema.objetos;
 
 public class Filme {
 
     private static int proximoId = 1;
     private int id;
     private String nome;
-    List<Cinema> cinemas;
     private Genero genero;
 
     public Filme(String nome, Genero genero) {
         this.id = proximoId++;
         this.nome = nome;
-        this.cinemas = new ArrayList<>();
         this.genero = genero;
     }
 
@@ -41,14 +36,10 @@ public class Filme {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
-    public void addCinema(Cinema cinema){
-        this.cinemas.add(cinema);
-    }
 
     @Override
     public String toString() {
-        return "Filme: " + nome + " Gênero: " + genero;
+        return "ID Filme: " + id + " - Filme: " + nome + " - Gênero: " + genero + ".";
     }
 
 }

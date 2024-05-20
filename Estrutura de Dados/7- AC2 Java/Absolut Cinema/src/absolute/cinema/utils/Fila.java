@@ -1,5 +1,6 @@
-package absolute.cinema;
+package absolute.cinema.utils;
 
+import absolute.cinema.objetos.Filme;
 import javax.swing.JOptionPane;
 
 public class Fila {
