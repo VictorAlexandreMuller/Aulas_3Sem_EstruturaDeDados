@@ -208,7 +208,7 @@ public class ListaEncadeada {
         IntNoSimples temp_no = primeiro;
         int i = 0;
         while (temp_no != null) {
-            System.out.println("Lista de Cinemas: " + "Posicao: " + i + " - " + temp_no.valorGenero); // O temp_no.valorGenero ja esta puxando o toString da classe Genero
+            System.out.println("Lista de Generos: " + "Posicao: " + i + " - " + temp_no.valorGenero); // O temp_no.valorGenero ja esta puxando o toString da classe Genero
             temp_no = temp_no.prox;
             i++;
         }

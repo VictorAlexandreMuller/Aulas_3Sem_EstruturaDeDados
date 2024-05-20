@@ -71,5 +71,9 @@ public class Cinema {
     public String toString() {
         return "ID Cinema: " + id + " - Cinema: " + nome + " - Possui (" + quantidadePoltronas + ") poltronas.";
     }
+    
+    public String imprimirNomeCinema() {
+        return nome;
+    }
 
 }

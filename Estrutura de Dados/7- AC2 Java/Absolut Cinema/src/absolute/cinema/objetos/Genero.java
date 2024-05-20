@@ -32,5 +32,8 @@ public class Genero {
         return "ID Genero: " + id + " - Genero: " + nome + ".";
     }
     
+    public String imprimirNomeGenero() {
+        return nome;
+    }
     
 }
