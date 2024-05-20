@@ -41,5 +41,9 @@ public class Filme {
     public String toString() {
         return "ID Filme: " + id + " - Filme: " + nome + " - Gênero: " + genero + ".";
     }
+    
+    public String imprimirNomeFilme() {
+        return nome;
+    }
 
 }

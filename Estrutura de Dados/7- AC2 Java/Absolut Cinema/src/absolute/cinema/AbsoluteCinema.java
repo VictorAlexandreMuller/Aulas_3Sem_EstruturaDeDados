@@ -8,29 +8,26 @@ import absolute.cinema.utils.Pilha;
 import absolute.cinema.objetos.Filme;
 import absolute.cinema.objetos.PoltronaReservar;
 import absolute.cinema.utils.Fila;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class AbsoluteCinema {
 
     public static void main(String[] args) {
-
+        
         Pilha pilhaHistoricoDeReserva = new Pilha(20);
-
-        Fila filaCadastroDeFilmes = new Fila(20);
+        
+        Fila filaFilmesCadastrados = new Fila(20); // Case 3 e 4
         Fila filaFilmesEmBreve = new Fila(20);
         Fila filaListaDeFilmesAPassar = new Fila(20);
-
-        ListaEncadeada listaFilmeHoje = new ListaEncadeada();
+        
+        ListaEncadeada listaFilminho = new ListaEncadeada(); // Case 3
         ListaEncadeada listaCinemas = new ListaEncadeada();
         ListaEncadeada listaGenero = new ListaEncadeada();
-
-        //ArrayList<Genero> generos = new ArrayList<>();
-        //ArrayList<Cinema> cinemas = new ArrayList<>();
-        //ArrayList<Filme> arrayFilmes = new ArrayList<>();
+        
+        ListaEncadeada listaFilmeHoje = new ListaEncadeada();
+        
         int opcao = 1;
-        int i;
-
+        
         String nome = "";
         int quantidadeDePoltronas = 0;
 
@@ -62,128 +59,74 @@ public class AbsoluteCinema {
                     listaGenero.exibeListaGenero();
 
                     JOptionPane.showMessageDialog(null, "Gênero criado com sucesso.");
-
+                    
                     break;
 
-                    
                 // 3- Cadastrar Filme em uma Fila de Transferencia.
                 case 3:
                     
-                    // ARRUMAR AQUI
-                    
-                    if (listaGenero == null) {
+                    if (listaGenero.ContarNos() == 0) {
                         JOptionPane.showMessageDialog(null, "Por favor, crie um gênero para cadastrar algum filme.");
                     } else {
-                        StringBuilder opcoesCinema = new StringBuilder();
+                        StringBuilder opcoesGenero = new StringBuilder();
 
-                        IntNoSimples temp_no = listaCinemas.primeiro;
+                        IntNoSimples temp_no = listaGenero.primeiro;
                         int posicao = 0;
 
                         while (temp_no != null) {
-                            opcoesCinema.append(posicao + 1)
+                            opcoesGenero.append(posicao + 1)
                                     .append(": ")
-                                    .append(temp_no.valorCinema.getNome())
-                                    .append(" - Quantidade máxima de poltronas: ")
-                                    .append(temp_no.valorCinema.getQuantidadePoltronas())
+                                    .append(temp_no.valorGenero.getNome())
                                     .append("\n");
 
                             temp_no = temp_no.prox;
                             posicao++;
                         }
 
-                        String escolhaStr = JOptionPane.showInputDialog(null,
-                                "Escolha o cinema que deseja realizar a reserva:\n" + opcoesCinema.toString());
+                        String escolhaGenero = JOptionPane.showInputDialog(null,
+                                "Escolha o Gênero do filme a ser cadastrado:\n" + opcoesGenero.toString());
 
-                        if (escolhaStr != null && !escolhaStr.trim().isEmpty()) {
-                            try {
-                                int escolha = Integer.parseInt(escolhaStr) - 1;
+                        if (escolhaGenero != null && !escolhaGenero.trim().isEmpty()) { // O método trim() remove espaços em branco de ambas as extremidades de uma string.
+                            
+                                int escolha = Integer.parseInt(escolhaGenero) - 1;
 
-                                if (escolha < 0 || escolha >= listaCinemas.ContarNos()) {
-                                    JOptionPane.showMessageDialog(null, "Opção inválida. Por favor, insira um número válido.");
+                                if (escolha < 0 || escolha >= listaGenero.ContarNos()) {
+                                    JOptionPane.showMessageDialog(null, "Opção inválida. Por favor, insira uma opção válida.");
                                     break;
                                 }
 
-                                IntNoSimples noEscolhido = listaCinemas.primeiro;
+                                IntNoSimples noEscolhido = listaGenero.primeiro;
                                 for (int j = 0; j < escolha; j++) {
                                     noEscolhido = noEscolhido.prox;
                                 }
 
-                                Cinema cinemaEscolhido = noEscolhido.valorCinema;
-
-                                String numeroPoltronaStr = JOptionPane.showInputDialog(null,
-                                        "Digite o número da poltrona que deseja reservar (" + cinemaEscolhido.getQuantidadePoltronas() + "):");
-
-                                if (numeroPoltronaStr != null && !numeroPoltronaStr.trim().isEmpty()) {
-                                    try {
-                                        int numeroPoltrona = Integer.parseInt(numeroPoltronaStr);
-                                        if (numeroPoltrona < 1 || numeroPoltrona > cinemaEscolhido.getQuantidadePoltronas()) {
-                                            JOptionPane.showMessageDialog(null, "Número da poltrona inválido. Por favor, insira um número entre 1 e " + cinemaEscolhido.getQuantidadePoltronas() + ".");
-                                        } else {
-                                            if (cinemaEscolhido.reservarPoltrona(numeroPoltrona)) {
-                                                pilhaHistoricoDeReserva.empilhar(new PoltronaReservar(numeroPoltrona, cinemaEscolhido)); // já empilha para o case 8
-                                                JOptionPane.showMessageDialog(null, "Poltrona " + numeroPoltrona + " reservada com sucesso.");
-                                            } else {
-                                                JOptionPane.showMessageDialog(null, "Poltrona " + numeroPoltrona + " já está reservada, por favor, selecione outra poltrona.");
-                                            }
-                                        }
-                                    } catch (NumberFormatException e) {
-                                        JOptionPane.showMessageDialog(null, "Número da poltrona inválido. Por favor, insira um número válido.");
-                                    }
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "Número da poltrona inválido.");
-                                }
-                            } catch (NumberFormatException e) {
-                                JOptionPane.showMessageDialog(null, "Opção inválida. Por favor, insira um número válido.");
-                            }
+                                Genero generoEscolhido = noEscolhido.valorGenero;
+                                
+                                String nomeFilme = JOptionPane.showInputDialog(null,
+                                        "Digite o nome do filme que deseja cadastrar:");
+                                
+                                Filme filme = new Filme(nomeFilme, generoEscolhido);
+                                
+                                filme.setNome(nomeFilme);
+                                filme.setGenero(generoEscolhido);
+                                
+                                listaFilminho.insereNo_fim(new IntNoSimples(filme));
+                                filaFilmesCadastrados.enfileirar(filme);
+                                
+                                JOptionPane.showMessageDialog(null, filme + " - Criado e adicionado à fila com sucesso.");
+                                filaFilmesCadastrados.exibeFilaCadastro();
+                                
                         } else {
                             JOptionPane.showMessageDialog(null, "Opção inválida.");
                         }
-                    }
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-
-                    Genero genero2 = new Genero(nome);
-
-                    Filme filme = new Filme(nome, genero2);
-
-                    nome = JOptionPane.showInputDialog(null, "Insira o nome do novo filme:");
-
-                    filme.setNome(nome);
-
-                    if (listaGenero == null) {
-                        JOptionPane.showMessageDialog(null, "Por favor, crie um gênero para cadastrar algum filme.");
-                    } else {
-                        StringBuilder opcoes = new StringBuilder();
-                        for (i = 0; i < generos.size(); i++) {
-                            opcoes.append(i + 1).append(": ").append(generos.get(i).getNome());
-                            if (i < generos.size() - 1) {
-                                opcoes.append("\n");
-                            }
-                        }
-                        int escolha = Integer.parseInt(JOptionPane.showInputDialog(null, "Escolha um gênero:\n" + opcoes.toString())) - 1;
-                        Genero generoEscolhido = generos.get(escolha);
-
-                        filme.setGenero(generoEscolhido);
-
-                        filaCadastroDeFilmes.enfileirar(filme);
-                        JOptionPane.showMessageDialog(null, filme + " - Criado e adicionado à fila com sucesso.");
-                        filaCadastroDeFilmes.exibeFilaCadastro();
                     }
 
                     break;
 
                 // 4- Transferir um Filme à fila de Filmes em Breve.
                 case 4:
-                    filaFilmesEmBreve.enfileirar(filaCadastroDeFilmes.desenfileirar());
-                    filaCadastroDeFilmes.exibeFilaCadastro();
+                    filaFilmesEmBreve.enfileirar(filaFilmesCadastrados.desenfileirar());
+                    filaFilmesCadastrados.exibeFilaCadastro();
                     filaFilmesEmBreve.exibeFilaEmBreve();
 
                     break;
@@ -232,12 +175,12 @@ public class AbsoluteCinema {
                             posicao++;
                         }
 
-                        String escolhaStr = JOptionPane.showInputDialog(null,
+                        String escolhaCinema = JOptionPane.showInputDialog(null,
                                 "Escolha o cinema que deseja realizar a reserva:\n" + opcoesCinema.toString());
 
-                        if (escolhaStr != null && !escolhaStr.trim().isEmpty()) {
+                        if (escolhaCinema != null && !escolhaCinema.trim().isEmpty()) {
                             try {
-                                int escolha = Integer.parseInt(escolhaStr) - 1;
+                                int escolha = Integer.parseInt(escolhaCinema) - 1;
 
                                 if (escolha < 0 || escolha >= listaCinemas.ContarNos()) {
                                     JOptionPane.showMessageDialog(null, "Opção inválida. Por favor, insira um número válido.");
