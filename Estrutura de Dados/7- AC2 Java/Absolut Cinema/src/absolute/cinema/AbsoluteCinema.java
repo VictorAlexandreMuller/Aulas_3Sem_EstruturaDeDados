@@ -9,132 +9,83 @@ import absolute.cinema.objetos.Filme;
 import absolute.cinema.objetos.PoltronaReservar;
 import absolute.cinema.utils.Fila;
 import javax.swing.JOptionPane;
+import absolute.cinema.services.GeneroServices;
+import absolute.cinema.services.FilmeServices;
+import absolute.cinema.utils.ArvoreNaria;
+import absolute.cinema.utils.Nodo;
 
 public class AbsoluteCinema {
 
     public static void main(String[] args) {
-        
-        Pilha pilhaHistoricoDeReserva = new Pilha(20);
-        
+
+        ListaEncadeada listaGenero = new ListaEncadeada(); // Utilizado para instanciar a lista no case 2
+        ListaEncadeada listaFilmes = new ListaEncadeada(); // Case 3
+
         Fila filaFilmesCadastrados = new Fila(20); // Case 3 e 4
+
+        Pilha pilhaHistoricoDeReserva = new Pilha(20);
+
         Fila filaFilmesEmBreve = new Fila(20);
         Fila filaListaDeFilmesAPassar = new Fila(20);
-        
-        ListaEncadeada listaFilminho = new ListaEncadeada(); // Case 3
+
         ListaEncadeada listaCinemas = new ListaEncadeada();
-        ListaEncadeada listaGenero = new ListaEncadeada();
-        
+
         ListaEncadeada listaFilmeHoje = new ListaEncadeada();
-        
+
+        ArvoreNaria arvoreCinemas = new ArvoreNaria(0);
+
         int opcao = 1;
-        
+
         String nome = "";
         int quantidadeDePoltronas = 0;
 
-        while (opcao != 9) {
+        while (opcao != 12) {
             opcao = Integer.parseInt(JOptionPane.showInputDialog(null,
-                    "-- BEM-VINDO AO ABSOLUTE CINEMA --\n\n"
-                    + "1- Buscar na ARVORE os cinemas em que determinado filme esta passando.\n"
-                    + "OK 2- Criar novo Gênero. (LISTA)\n"
+                    "-- BEM-VINDO AO SISTEMA DO ABSOLUTE CINEMA --\n"
+                    + "\n"
+                    + "Serviços de Gênero:\n"
+                    + "OK 1- Criar novo Gênero. (LISTA)\n"
+                    + "2- Mostrar Lista de Gêneros\n"
+                    + "\n"
+                    + "Serviços de Filme:\n"
                     + "OK 3- Cadastrar Filme. (FILA)\n"
-                    + "OK 4- Transferir Filmes Cadastrados para 'Filmes em Breve'. (FILA)\n"
-                    + "OK 5- Transferir 'Filmes em Breve' para 'Filmes em Cartaz Hoje'. (LISTA)\n"
+                    + "4- Mostrar Lista de Filmes Cadastrados\n"
+                    + "5- Mostrar Fila de Filmes Cadastrados a serem transferidos\n"
+                    + "\n"
+                    + "Serviços de Cinema:\n"
                     + "OK 6- Criar novo Cinema. (LISTA)\n"
                     + "OK 7- Criar uma reserva de lugar em LISTA.\n"
                     + "OK 8- Gerar histórico das reservas. (PILHA)\n"
-                    + "OK 9- Sair.\n\n"));
+                    + "\n"
+                    + "Outros Serviços:\n"
+                    + "OK 9- Transferir 'Fila Filme Cadastrado' >> 'Fila Filmes em Breve'. (FILA)\n"
+                    + "OK 10- Transferir 'Fila Filmes em Breve' >> 'Lista de Filmes em Cartaz Hoje'. (LISTA)\n"
+                    + "\n"
+                    + "11- Buscar na ARVORE os cinemas em que determinado filme esta passando.\n"
+                    + "\n"
+                    + "12- Sair.\n\n"));
 
             switch (opcao) {
-                // 1- Buscar na ARVORE os cinemas em que determinado filme esta passando.
-                case 1:
-
-                    break;
 
                 // 2 - Criar Genero.
+                case 1:
+                    GeneroServices.CadastrarGenero(listaGenero);
+                    break;
+
                 case 2:
 
-                    Genero genero = new Genero(JOptionPane.showInputDialog(null, "Insira o nome do novo Gênero:"));
-                    listaGenero.insereNo_fim(new IntNoSimples(genero));
-
-                    listaGenero.exibeListaGenero();
-
-                    JOptionPane.showMessageDialog(null, "Gênero criado com sucesso.");
-                    
                     break;
 
                 // 3- Cadastrar Filme em uma Fila de Transferencia.
                 case 3:
-                    
-                    if (listaGenero.ContarNos() == 0) {
-                        JOptionPane.showMessageDialog(null, "Por favor, crie um gênero para cadastrar algum filme.");
-                    } else {
-                        StringBuilder opcoesGenero = new StringBuilder();
-
-                        IntNoSimples temp_no = listaGenero.primeiro;
-                        int posicao = 0;
-
-                        while (temp_no != null) {
-                            opcoesGenero.append(posicao + 1)
-                                    .append(": ")
-                                    .append(temp_no.valorGenero.getNome())
-                                    .append("\n");
-
-                            temp_no = temp_no.prox;
-                            posicao++;
-                        }
-
-                        String escolhaGenero = JOptionPane.showInputDialog(null,
-                                "Escolha o Gênero do filme a ser cadastrado:\n" + opcoesGenero.toString());
-
-                        if (escolhaGenero != null && !escolhaGenero.trim().isEmpty()) { // O método trim() remove espaços em branco de ambas as extremidades de uma string.
-                            
-                                int escolha = Integer.parseInt(escolhaGenero) - 1;
-
-                                if (escolha < 0 || escolha >= listaGenero.ContarNos()) {
-                                    JOptionPane.showMessageDialog(null, "Opção inválida. Por favor, insira uma opção válida.");
-                                    break;
-                                }
-
-                                IntNoSimples noEscolhido = listaGenero.primeiro;
-                                for (int j = 0; j < escolha; j++) {
-                                    noEscolhido = noEscolhido.prox;
-                                }
-
-                                Genero generoEscolhido = noEscolhido.valorGenero;
-                                
-                                String nomeFilme = JOptionPane.showInputDialog(null,
-                                        "Digite o nome do filme que deseja cadastrar:");
-                                
-                                Filme filme = new Filme(nomeFilme, generoEscolhido);
-                                
-                                filme.setNome(nomeFilme);
-                                filme.setGenero(generoEscolhido);
-                                
-                                listaFilminho.insereNo_fim(new IntNoSimples(filme));
-                                filaFilmesCadastrados.enfileirar(filme);
-                                
-                                JOptionPane.showMessageDialog(null, filme + " - Criado e adicionado à fila com sucesso.");
-                                filaFilmesCadastrados.exibeFilaCadastro();
-                                
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Opção inválida.");
-                        }
-                    }
-
+                    FilmeServices.CadastroFilme(listaFilmes, listaGenero, filaFilmesCadastrados);
                     break;
 
-                // 4- Transferir um Filme à fila de Filmes em Breve.
                 case 4:
-                    filaFilmesEmBreve.enfileirar(filaFilmesCadastrados.desenfileirar());
-                    filaFilmesCadastrados.exibeFilaCadastro();
-                    filaFilmesEmBreve.exibeFilaEmBreve();
 
                     break;
 
-                // 5- Transferir um Filme à lista de Filmes Hoje.
                 case 5:
-                    listaFilmeHoje.insereNo_fim(new IntNoSimples(filaFilmesEmBreve.desenfileirar()));
-                    listaFilmeHoje.exibeListaFilme();
 
                     break;
 
@@ -246,7 +197,84 @@ public class AbsoluteCinema {
                     }
                     break;
 
+                // 9- Transferir um Filme à fila de Filmes em Breve.
                 case 9:
+                    filaFilmesEmBreve.enfileirar(filaFilmesCadastrados.desenfileirar());
+                    filaFilmesCadastrados.exibeFilaCadastroFilme();
+                    filaFilmesEmBreve.exibeFilaEmBreve();
+
+                    break;
+
+                // 10- Transferir um Filme à lista de Filmes Hoje.
+                case 10:
+                    listaFilmeHoje.insereNo_fim(new IntNoSimples(filaFilmesEmBreve.desenfileirar()));
+                    listaFilmeHoje.exibeListaFilme();
+                    break;
+
+                // 11- Buscar na ARVORE os cinemas em que determinado filme esta passando.
+                case 11:
+                /*
+                    String nomeFilmeBusca = JOptionPane.showInputDialog(null, "Insira o nome do filme que deseja buscar:");
+                    Nodo cinemaNode = arvoreCinemas.buscaChave(buscarIdFilme(nomeFilmeBusca), arvoreCinemas.getRaiz());
+                    if (cinemaNode != null) {
+                        String cinemas = buscarCinemasPorFilme(cinemaNode);
+                        JOptionPane.showMessageDialog(null, "O filme '" + nomeFilmeBusca + "' está passando nos seguintes cinemas:\n" + cinemas);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "O filme '" + nomeFilmeBusca + "' não está sendo exibido em nenhum cinema.");
+                    }
+                    break;
+                 */
+                    /*
+                    if (listaGenero.ContarNos() == 0) {
+                        JOptionPane.showMessageDialog(null, "Por favor, cadastre um gênero para realizar as suas pesquisas.");
+                    } else {
+                        StringBuilder opcoesGenero = new StringBuilder("Escolha o Gênero desejado:\n");
+                        IntNoSimples tempGenero = listaGenero.primeiro;
+                        int posicaoGenero = 1;
+                        while (tempGenero != null) {
+                            Genero genero = (Genero) tempGenero.valorGenero;
+                            opcoesGenero.append(posicaoGenero).append(": ").append(genero.getNome()).append("\n");
+                            tempGenero = tempGenero.prox;
+                            posicaoGenero++;
+                        }
+                        String escolhaGeneroStr = JOptionPane.showInputDialog(null, opcoesGenero.toString());
+                        int escolhaGenero = Integer.parseInt(escolhaGeneroStr) - 1;
+
+                        Nodo generoNode = arvoreGeneros.buscaChave(escolhaGenero, arvoreGeneros.getRaiz());
+                        if (generoNode == null || generoNode.primFilho == null) {
+                            JOptionPane.showMessageDialog(null, "Por favor, cadastre algum filme desse gênero para realizar as pesquisas.");
+                        } else {
+                            StringBuilder opcoesFilme = new StringBuilder("Escolha o Filme desejado:\n");
+                            Nodo tempFilme = generoNode.primFilho;
+                            int posicaoFilme = 1;
+                            while (tempFilme != null) {
+                                Filme filme = (Filme) tempFilme.chave;
+                                opcoesFilme.append(posicaoFilme).append(": ").append(filme.getNome()).append("\n");
+                                tempFilme = tempFilme.proxIrmao;
+                                posicaoFilme++;
+                            }
+                            String escolhaFilmeStr = JOptionPane.showInputDialog(null, opcoesFilme.toString());
+                            int escolhaFilme = Integer.parseInt(escolhaFilmeStr) - 1;
+
+                            Nodo filmeNode = arvoreGeneros.buscaChave(escolhaFilme, generoNode);
+                            if (filmeNode == null || filmeNode.primFilho == null) {
+                                JOptionPane.showMessageDialog(null, "Este filme não está passando em nenhum cinema.");
+                            } else {
+                                StringBuilder opcoesCinema = new StringBuilder("O filme está passando nos seguintes cinemas:\n");
+                                Nodo tempCinema = filmeNode.primFilho;
+                                while (tempCinema != null) {
+                                    Cinema cinema = (Cinema) tempCinema.chave;
+                                    opcoesCinema.append(cinema.getNome()).append("\n");
+                                    tempCinema = tempCinema.proxIrmao;
+                                }
+                                JOptionPane.showMessageDialog(null, opcoesCinema.toString());
+                            }
+                        }
+                    }
+                    */
+                    break;
+
+                case 12:
                     System.exit(0);
                     break;
 
@@ -256,6 +284,23 @@ public class AbsoluteCinema {
             }
         }
 
+    }
+
+    private static int buscarIdFilme(String nomeFilme) {
+        // Implementar lógica para buscar o ID do filme pelo nome
+        // Supondo que a listaFilmes contém todos os filmes cadastrados
+        // Retorna -1 se não encontrado
+        return -1; // Exemplo de retorno
+    }
+
+    private static String buscarCinemasPorFilme(Nodo filmeNode) {
+        StringBuilder cinemas = new StringBuilder();
+        Nodo p = filmeNode.primFilho;
+        while (p != null) {
+            cinemas.append(p.chave).append("\n");
+            p = p.proxIrmao;
+        }
+        return cinemas.toString();
     }
 
 }

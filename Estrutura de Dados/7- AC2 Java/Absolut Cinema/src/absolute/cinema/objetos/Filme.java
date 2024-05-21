@@ -20,7 +20,7 @@ public class Filme {
     public void setGenero(Genero genero) {
         this.genero = genero;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -28,7 +28,7 @@ public class Filme {
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public String getNome() {
         return nome;
     }
@@ -39,11 +39,12 @@ public class Filme {
 
     @Override
     public String toString() {
-        return "ID Filme: " + id + " - Filme: " + nome + " - Gênero: " + genero + ".";
-    }
-    
-    public String imprimirNomeFilme() {
         return nome;
+    }
+
+    public String imprimirCadastroFilme() {
+        return "ID Filme: " + id + " - Filme: " + nome + " - Gênero: " + genero + ".";
+
     }
 
 }

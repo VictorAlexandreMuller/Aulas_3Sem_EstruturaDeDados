@@ -69,11 +69,11 @@ public class Cinema {
 
     @Override
     public String toString() {
-        return "ID Cinema: " + id + " - Cinema: " + nome + " - Possui (" + quantidadePoltronas + ") poltronas.";
-    }
-    
-    public String imprimirNomeCinema() {
         return nome;
+    }
+
+    public String imprimirCadastroCinema() {
+        return "ID Cinema: " + id + " - Cinema: " + nome + " - Possui (" + quantidadePoltronas + ") poltronas.";
     }
 
 }

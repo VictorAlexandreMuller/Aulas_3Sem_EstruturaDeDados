@@ -1,7 +1,7 @@
 package absolute.cinema.objetos;
 
 public class Genero {
-    
+
     private static int proximoId = 1;
     private int id;
     private String nome;
@@ -26,14 +26,15 @@ public class Genero {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
     @Override
     public String toString() {
-        return "ID Genero: " + id + " - Genero: " + nome + ".";
-    }
-    
-    public String imprimirNomeGenero() {
         return nome;
     }
-    
+
+    public String imprimirCadastroGenero() {
+        return "ID Genero: " + id + " - Genero: " + nome + ".";
+
+    }
+
 }
