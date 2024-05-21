@@ -58,11 +58,11 @@ public class Fila {
         }
     }
 
-    public void exibeFilaCadastroFilme() {
+    public void exibeFilaDeTransferencia() {
 
         StringBuilder opcoes = new StringBuilder();
 
-        opcoes.append("FILA DE FILMES CADASTRADOS:\n\n");
+        opcoes.append("FILA DE TRANSFERENCIA:\n\n");
 
         for (int i = inicio, count = 0; count < total; i = (i + 1) % tamanho, count++) {
             opcoes.append("Posição: ").append(i).append(" - Filme: ").append(vetor[i]).append("\n");
@@ -89,4 +89,19 @@ public class Fila {
                     + "Posicao: " + i + " - Valor: " + vetor[i] + "\n");
         }
     }
+    
+    public void exibeFilaFilmeEmBreveJOPT() {
+        StringBuilder filaFilmeEmBreve = new StringBuilder();
+
+        for (int i = inicio; i < fim; i++) {
+            filaFilmeEmBreve.append("Posição: ")
+                    .append(i)
+                    .append(" - Valor: ")
+                      .append(vetor[i].getNome())
+                      .append("\n");
+        }
+        JOptionPane.showMessageDialog(null,
+                "Fila de Filmes Em Breve:\n" + filaFilmeEmBreve.toString());
+    }
+    
 }

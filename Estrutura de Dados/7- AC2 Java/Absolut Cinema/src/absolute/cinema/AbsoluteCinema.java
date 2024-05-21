@@ -18,15 +18,15 @@ public class AbsoluteCinema {
 
     public static void main(String[] args) {
 
-        ListaEncadeada listaGenero = new ListaEncadeada(); // Utilizado para instanciar a lista no case 2
-        ListaEncadeada listaFilmes = new ListaEncadeada(); // Case 3
+        ListaEncadeada listaGenero = new ListaEncadeada();
+        ListaEncadeada listaFilmes = new ListaEncadeada();
 
-        Fila filaFilmesCadastrados = new Fila(20); // Case 3 e 4
+        Fila filaDeTransferencia = new Fila(20);
 
         Pilha pilhaHistoricoDeReserva = new Pilha(20);
 
+        
         Fila filaFilmesEmBreve = new Fila(20);
-        Fila filaListaDeFilmesAPassar = new Fila(20);
 
         ListaEncadeada listaCinemas = new ListaEncadeada();
 
@@ -36,61 +36,79 @@ public class AbsoluteCinema {
 
         int opcao = 1;
 
-        String nome = "";
         int quantidadeDePoltronas = 0;
 
-        while (opcao != 12) {
+        while (opcao != 99) {
             opcao = Integer.parseInt(JOptionPane.showInputDialog(null,
                     "-- BEM-VINDO AO SISTEMA DO ABSOLUTE CINEMA --\n"
                     + "\n"
                     + "Serviços de Gênero:\n"
-                    + "OK 1- Criar novo Gênero. (LISTA)\n"
-                    + "2- Mostrar Lista de Gêneros\n"
+                    + "OK 1- Criar novo Gênero.\n"
+                    + "OK 2- Mostrar Lista de Gêneros\n"
                     + "\n"
                     + "Serviços de Filme:\n"
-                    + "OK 3- Cadastrar Filme. (FILA)\n"
-                    + "4- Mostrar Lista de Filmes Cadastrados\n"
-                    + "5- Mostrar Fila de Filmes Cadastrados a serem transferidos\n"
+                    + "OK 40- Cadastrar Filme. (FILA)\n"
+                    + "OK 45- Mostrar Lista de Filmes Cadastrados\n"
+                    + "OK 50- Mostrar Fila de transferencia\n"
+                    + "OK 52- Mostrar Fila de Filmes Em Breve\n"
+                    + "OK 53- Mostrar Lista de Filmes Em Cartaz Hoje\n"
                     + "\n"
                     + "Serviços de Cinema:\n"
-                    + "OK 6- Criar novo Cinema. (LISTA)\n"
-                    + "OK 7- Criar uma reserva de lugar em LISTA.\n"
-                    + "OK 8- Gerar histórico das reservas. (PILHA)\n"
+                    + "OK 55- Criar novo Cinema. (LISTA)\n"
+                    + "60- Mostrar Lista de Cinemas Cadastrados\n"
+                    + "65- Adicionar Filme ao Cinema\n"
+                    + "\n"
+                    + "Serviços para Reserva:\n"
+                    + "OK 70- Criar uma reserva de lugar em LISTA.\n"
+                    + "OK 75- Gerar histórico das reservas. (PILHA)\n"
                     + "\n"
                     + "Outros Serviços:\n"
-                    + "OK 9- Transferir 'Fila Filme Cadastrado' >> 'Fila Filmes em Breve'. (FILA)\n"
-                    + "OK 10- Transferir 'Fila Filmes em Breve' >> 'Lista de Filmes em Cartaz Hoje'. (LISTA)\n"
+                    + "OK 80- Transferir - 'Fila de Transferencia' >> 'Fila Filmes em Breve'.\n"
+                    + "OK 85- Transferir - 'Fila Filmes em Breve' >> 'Lista de Filmes em Cartaz Hoje'.\n"
                     + "\n"
-                    + "11- Buscar na ARVORE os cinemas em que determinado filme esta passando.\n"
+                    + "90- Buscar na ARVORE os cinemas em que determinado filme esta passando.\n"
                     + "\n"
-                    + "12- Sair.\n\n"));
+                    + "99- Sair.\n\n"));
 
             switch (opcao) {
 
-                // 2 - Criar Genero.
                 case 1:
                     GeneroServices.CadastrarGenero(listaGenero);
                     break;
 
                 case 2:
-
+                    GeneroServices.MostrarListaGenero(listaGenero);
                     break;
 
-                // 3- Cadastrar Filme em uma Fila de Transferencia.
-                case 3:
-                    FilmeServices.CadastroFilme(listaFilmes, listaGenero, filaFilmesCadastrados);
+                case 40:
+                    FilmeServices.CadastroFilme(listaFilmes, listaGenero, filaDeTransferencia); // 3- Cadastrar Filme e adiciona-lo a uma Fila de Transferencia.
                     break;
 
-                case 4:
-
+                case 45:
+                    
+                    FilmeServices.MostrarListaFilmeCadastrados(listaFilmes);
                     break;
 
-                case 5:
+                case 50:
+                    
+                    FilmeServices.MostrarFilaDeTransferencia(filaDeTransferencia);
 
+                    break;
+                    
+                case 52: 
+                    
+                    FilmeServices.MostrarFilaEmBreve(filaFilmesEmBreve);
+                    
+                    break;
+                    
+                case 53:
+                    
+                    FilmeServices.MostrarListaEmCartazHoje(listaFilmeHoje);
+                    
                     break;
 
                 // 6- Insira um novo Cinema.
-                case 6:
+                case 55:
                     String nomeCinema = JOptionPane.showInputDialog(null, "Insira o nome do novo Cinema a ser cadastrado:");
                     quantidadeDePoltronas = Integer.parseInt(JOptionPane.showInputDialog(null, "Insira a quantidade de poltronas existentes neste cinema:"));
 
@@ -104,8 +122,16 @@ public class AbsoluteCinema {
 
                     break;
 
+                case 60:
+
+                    break;
+
+                case 65:
+
+                    break;
+
                 // 7- Criar uma reserva de lugar em LISTA.
-                case 7:
+                case 70:
                     if (listaCinemas.ContarNos() == 0) {
                         JOptionPane.showMessageDialog(null, "Por favor, crie um cinema para fazer uma reserva.");
                     } else {
@@ -177,7 +203,7 @@ public class AbsoluteCinema {
                     break;
 
                 // 8- Buscar historico de lugares na PILHA.
-                case 8:
+                case 75:
                     if (pilhaHistoricoDeReserva.vazia()) {
                         JOptionPane.showMessageDialog(null, "Nenhuma reserva foi feita.");
                     } else {
@@ -197,23 +223,21 @@ public class AbsoluteCinema {
                     }
                     break;
 
-                // 9- Transferir um Filme à fila de Filmes em Breve.
-                case 9:
-                    filaFilmesEmBreve.enfileirar(filaFilmesCadastrados.desenfileirar());
-                    filaFilmesCadastrados.exibeFilaCadastroFilme();
+                case 80:
+                    filaFilmesEmBreve.enfileirar(filaDeTransferencia.desenfileirar());
+                    filaDeTransferencia.exibeFilaDeTransferencia();
                     filaFilmesEmBreve.exibeFilaEmBreve();
-
                     break;
 
-                // 10- Transferir um Filme à lista de Filmes Hoje.
-                case 10:
+                case 85:
                     listaFilmeHoje.insereNo_fim(new IntNoSimples(filaFilmesEmBreve.desenfileirar()));
-                    listaFilmeHoje.exibeListaFilme();
+                    filaFilmesEmBreve.exibeFilaEmBreve();
+                    listaFilmeHoje.exibeListaEmCartazHojeJOPT();
                     break;
 
-                // 11- Buscar na ARVORE os cinemas em que determinado filme esta passando.
-                case 11:
-                /*
+                
+                case 90:
+                    // 11- Buscar na ARVORE os cinemas em que determinado filme esta passando.
                     String nomeFilmeBusca = JOptionPane.showInputDialog(null, "Insira o nome do filme que deseja buscar:");
                     Nodo cinemaNode = arvoreCinemas.buscaChave(buscarIdFilme(nomeFilmeBusca), arvoreCinemas.getRaiz());
                     if (cinemaNode != null) {
@@ -222,8 +246,8 @@ public class AbsoluteCinema {
                     } else {
                         JOptionPane.showMessageDialog(null, "O filme '" + nomeFilmeBusca + "' não está sendo exibido em nenhum cinema.");
                     }
-                    break;
-                 */
+
+                    // -------------------------------------------------
                     /*
                     if (listaGenero.ContarNos() == 0) {
                         JOptionPane.showMessageDialog(null, "Por favor, cadastre um gênero para realizar as suas pesquisas.");
@@ -271,10 +295,10 @@ public class AbsoluteCinema {
                             }
                         }
                     }
-                    */
+                     */
                     break;
 
-                case 12:
+                case 99:
                     System.exit(0);
                     break;
 

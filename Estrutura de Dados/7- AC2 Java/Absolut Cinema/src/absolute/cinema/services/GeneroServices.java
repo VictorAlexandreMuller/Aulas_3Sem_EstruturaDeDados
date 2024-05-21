@@ -7,7 +7,6 @@ import absolute.cinema.utils.ListaEncadeada;
 
 public class GeneroServices {
 
-    // Case 2
     public static void CadastrarGenero(ListaEncadeada listaGenero) {
 
         Genero genero = new Genero(JOptionPane.showInputDialog(null, "Insira o nome do novo Gênero:"));
@@ -17,6 +16,12 @@ public class GeneroServices {
         listaGenero.exibeListaGenero();
 
         JOptionPane.showMessageDialog(null, "Gênero criado com sucesso.");
+    }
+    
+    public static Genero MostrarListaGenero (ListaEncadeada listaGenero) {
+        
+        listaGenero.exibeListaGeneroJOPT();
+        return null;
     }
 
     public static Genero SelecionarGenero(ListaEncadeada listaGenero) {
