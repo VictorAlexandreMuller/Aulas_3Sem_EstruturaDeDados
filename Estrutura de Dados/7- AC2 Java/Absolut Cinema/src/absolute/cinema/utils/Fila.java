@@ -58,14 +58,14 @@ public class Fila {
         }
     }
 
-    public void exibeFilaCadastro() {
+    public void exibeFilaCadastroFilme() {
 
         StringBuilder opcoes = new StringBuilder();
 
-        opcoes.append("CADASTRADOS:\n");
+        opcoes.append("FILA DE FILMES CADASTRADOS:\n\n");
 
         for (int i = inicio, count = 0; count < total; i = (i + 1) % tamanho, count++) {
-            opcoes.append("Posição: ").append(i).append(" - Valor: ").append(vetor[i]).append("\n");
+            opcoes.append("Posição: ").append(i).append(" - Filme: ").append(vetor[i]).append("\n");
         }
 
         JOptionPane.showMessageDialog(null, opcoes.toString());
@@ -74,10 +74,10 @@ public class Fila {
     public void exibeFilaEmBreve() {
         StringBuilder opcoes = new StringBuilder();
 
-        opcoes.append("FILMES CADASTRADOS E LISTADOS EM 'EM BREVE':\n");
+        opcoes.append("FILA DE FILMES EM BREVE:\n\n");
 
         for (int i = inicio, count = 0; count < total; i = (i + 1) % tamanho, count++) {
-            opcoes.append("Posição: ").append(i).append(" ---- ").append(vetor[i]).append("\n");
+            opcoes.append("Posição: ").append(i).append(" - Filme: ").append(vetor[i]).append("\n");
         }
 
         JOptionPane.showMessageDialog(null, opcoes.toString());
@@ -85,7 +85,7 @@ public class Fila {
 
     public void exibeFila() {
         for (int i = inicio; i < fim; i++) {
-            System.out.println("FILA EM BREVE: \n"
+            System.out.println("FILA MODELO DO PROFESSOR: \n"
                     + "Posicao: " + i + " - Valor: " + vetor[i] + "\n");
         }
     }
