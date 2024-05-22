@@ -12,6 +12,7 @@ public class ArvoreNaria {
         return raiz;
     }
 
+    // busca recursiva em busca do nodo especificado no parametro
     public Nodo buscaNodo(Object valor, Nodo nodo) {
         if (nodo == null) {
             return null;
@@ -28,6 +29,7 @@ public class ArvoreNaria {
         return null;
     }
 
+    // insere um novo nodo como filho do nodo que contem o valor especificado no parametro
     public boolean insere(Object novoValor, Object valorPai) {
         Nodo pai = buscaNodo(valorPai, raiz);
         if (pai == null) {
@@ -38,19 +40,24 @@ public class ArvoreNaria {
         return true;
     }
 
-    public void exibirArvore(Nodo nodo) {
+    // exibe a arvore a partir de um novo especifico passado no parametro
+    public void exibirArvore(Nodo nodo, boolean fim) {
         if (nodo == null) {
             return;
         }
         System.out.print(nodo.getValor().toString() + "(");
         for (Nodo filho : nodo.getFilhos()) {
-            exibirArvore(filho);
+            exibirArvore(filho, false);
         }
         System.out.print(")");
+        if (fim) {
+            System.out.println("\n---------------------");
+        }
     }
 
+    // exibe a arvore toda, ou seja, a partir da raiz
     public void exibirArvore() {
-        exibirArvore(raiz);
+        exibirArvore(raiz, true);
         System.out.println();
     }
 }
