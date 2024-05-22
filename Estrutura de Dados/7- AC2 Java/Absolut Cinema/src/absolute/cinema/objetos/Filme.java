@@ -43,8 +43,8 @@ public class Filme {
     }
 
     public String imprimirCadastroFilme() {
-        return "ID Filme: " + id + " - Filme: " + nome + " - Gênero: " + genero + ".";
+        return "ID: " + id + " - Filme: " + nome + " - Gênero: " + genero + ".";
 
     }
-
+    
 }

@@ -44,7 +44,7 @@ public class PoltronaReservar {
     }
     
     public String imprimirCadastroPoltrona() {
-        return "ID Reserva: " + id + " - Cinema: " + cinema + " - Poltrona: " + numero + ".";
+        return "ID: " + id + " - Cinema: " + cinema + " - Poltrona: " + numero + ".";
 
     }
     

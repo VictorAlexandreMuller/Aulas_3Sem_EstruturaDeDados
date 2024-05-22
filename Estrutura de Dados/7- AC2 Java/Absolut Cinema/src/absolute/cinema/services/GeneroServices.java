@@ -6,8 +6,15 @@ import absolute.cinema.utils.IntNoSimples;
 import absolute.cinema.utils.ListaEncadeada;
 
 public class GeneroServices {
+    
+    /*
+    
+    "Serviços de Gênero:\n"
+                    + "OK 1- Criar novo Gênero.\n"
+                    + "OK 2- Mostrar Lista de Gêneros\n"
+    
+    */
 
-    // Case 2
     public static void CadastrarGenero(ListaEncadeada listaGenero) {
 
         Genero genero = new Genero(JOptionPane.showInputDialog(null, "Insira o nome do novo Gênero:"));
@@ -16,14 +23,16 @@ public class GeneroServices {
 
         listaGenero.exibeListaGenero();
 
-        JOptionPane.showMessageDialog(null, "Gênero criado com sucesso.");
+        JOptionPane.showMessageDialog(null, "Gênero ''" + genero + "'' criado com sucesso.");
+    }
+    
+    public static Genero MostrarListaGenero (ListaEncadeada listaGenero) {
+        
+        listaGenero.exibeListaGeneroJOPT();
+        return null;
     }
 
     public static Genero SelecionarGenero(ListaEncadeada listaGenero) {
-        if (listaGenero.ContarNos() == 0) {
-            JOptionPane.showMessageDialog(null, "Por favor, crie um gênero para cadastrar algum filme.");
-            return null;
-        }
 
         StringBuilder opcoesGenero = new StringBuilder();
         IntNoSimples temp_no = listaGenero.primeiro;
