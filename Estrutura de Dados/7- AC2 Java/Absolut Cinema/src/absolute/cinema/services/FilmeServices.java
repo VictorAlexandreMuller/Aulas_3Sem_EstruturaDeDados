@@ -20,21 +20,27 @@ public class FilmeServices {
      */
     public static void CadastroFilme(ListaEncadeada listaFilmes, ListaEncadeada listaGenero, Fila filaDeTransferencia) {
 
-        Genero generoEscolhido = GeneroServices.SelecionarGenero(listaGenero);
+        if (listaGenero.ContarNos() == 0) {
+            JOptionPane.showMessageDialog(null, "Por favor, crie ao menos um gênero antes de cadastrar qualquer filme.");
+        } else {
 
-        String nomeFilme = JOptionPane.showInputDialog(null,
-                "Digite o nome do filme que deseja cadastrar:");
+            Genero generoEscolhido = GeneroServices.SelecionarGenero(listaGenero);
 
-        Filme filme = new Filme(nomeFilme, generoEscolhido);
+            String nomeFilme = JOptionPane.showInputDialog(null,
+                    "Digite o nome do filme que deseja cadastrar:");
 
-        filme.setNome(nomeFilme);
-        filme.setGenero(generoEscolhido);
+            Filme filme = new Filme(nomeFilme, generoEscolhido);
 
-        listaFilmes.insereNo_fim(new IntNoSimples(filme));
-        filaDeTransferencia.enfileirar(filme);
+            filme.setNome(nomeFilme);
+            filme.setGenero(generoEscolhido);
 
-        JOptionPane.showMessageDialog(null, "O filme ''" + filme + "'' do gênero ''" + generoEscolhido + "'' foi criado e adicionado à fila com sucesso.");
-        filaDeTransferencia.exibeFilaDeTransferencia();
+            listaFilmes.insereNo_fim(new IntNoSimples(filme));
+            filaDeTransferencia.enfileirar(filme);
+            listaFilmes.exibeListaFilme();
+
+            JOptionPane.showMessageDialog(null, "O filme ''" + filme + "'' do gênero ''" + generoEscolhido + "'' foi criado e adicionado à fila com sucesso.");
+            filaDeTransferencia.exibeFilaDeTransferencia();
+        }
     }
 
     public static Filme MostrarListaFilmeCadastrados(ListaEncadeada listaFilme) {
@@ -48,17 +54,15 @@ public class FilmeServices {
         filaDeTransferencia.exibeFilaDeTransferencia();
         return null;
     }
-    
-    
-    
-    public static Filme MostrarFilaEmBreve (Fila filaEmBreve) {
-        
+
+    public static Filme MostrarFilaEmBreve(Fila filaEmBreve) {
+
         filaEmBreve.exibeFilaEmBreve();
         return null;
     }
-    
-    public static Filme MostrarListaEmCartazHoje (ListaEncadeada listaEmCartazHoje) {
-        
+
+    public static Filme MostrarListaEmCartazHoje(ListaEncadeada listaEmCartazHoje) {
+
         listaEmCartazHoje.exibeListaEmCartazHojeJOPT();
         return null;
     }

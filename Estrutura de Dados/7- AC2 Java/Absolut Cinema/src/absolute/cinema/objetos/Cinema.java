@@ -9,7 +9,6 @@ public class Cinema {
     private static int proximoId = 1;
     private int id;
     private String nome;
-
     private int quantidadePoltronas;
     private List<Boolean> poltronasDisponiveis;
 
@@ -73,7 +72,7 @@ public class Cinema {
     }
 
     public String imprimirCadastroCinema() {
-        return "ID Cinema: " + id + " - Cinema: " + nome + " - Possui (" + quantidadePoltronas + ") poltronas.";
+        return "ID: " + id + " - Cinema: " + nome + " - Possui (" + quantidadePoltronas + ") poltronas.";
     }
 
 }

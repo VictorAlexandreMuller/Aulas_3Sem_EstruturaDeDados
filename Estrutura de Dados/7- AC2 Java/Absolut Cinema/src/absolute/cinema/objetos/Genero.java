@@ -33,8 +33,8 @@ public class Genero {
     }
 
     public String imprimirCadastroGenero() {
-        return "ID Genero: " + id + " - Genero: " + nome + ".";
+        return "ID: " + id + " - Genero: " + nome + ".";
 
-    }
+    }    
 
 }

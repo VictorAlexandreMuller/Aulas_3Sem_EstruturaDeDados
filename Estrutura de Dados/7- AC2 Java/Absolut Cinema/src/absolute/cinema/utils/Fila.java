@@ -62,10 +62,10 @@ public class Fila {
 
         StringBuilder opcoes = new StringBuilder();
 
-        opcoes.append("FILA DE TRANSFERENCIA:\n\n");
+        opcoes.append("Fila de Transferencia:\n\n");
 
         for (int i = inicio, count = 0; count < total; i = (i + 1) % tamanho, count++) {
-            opcoes.append("Posição: ").append(i).append(" - Filme: ").append(vetor[i]).append("\n");
+            opcoes.append("Posição: ").append(i).append(" >> ").append(vetor[i].imprimirCadastroFilme()).append("\n");
         }
 
         JOptionPane.showMessageDialog(null, opcoes.toString());
@@ -74,10 +74,10 @@ public class Fila {
     public void exibeFilaEmBreve() {
         StringBuilder opcoes = new StringBuilder();
 
-        opcoes.append("FILA DE FILMES EM BREVE:\n\n");
+        opcoes.append("Fila de Filmes Em Breve:\n\n");
 
         for (int i = inicio, count = 0; count < total; i = (i + 1) % tamanho, count++) {
-            opcoes.append("Posição: ").append(i).append(" - Filme: ").append(vetor[i]).append("\n");
+            opcoes.append("Posição: ").append(i).append(" >> ").append(vetor[i].imprimirCadastroFilme()).append("\n");
         }
 
         JOptionPane.showMessageDialog(null, opcoes.toString());
@@ -97,7 +97,7 @@ public class Fila {
             filaFilmeEmBreve.append("Posição: ")
                     .append(i)
                     .append(" - Valor: ")
-                      .append(vetor[i].getNome())
+                      .append(vetor[i].imprimirCadastroFilme())
                       .append("\n");
         }
         JOptionPane.showMessageDialog(null,

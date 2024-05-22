@@ -7,6 +7,7 @@ import absolute.cinema.objetos.Genero;
 import absolute.cinema.utils.Pilha;
 import absolute.cinema.objetos.Filme;
 import absolute.cinema.objetos.PoltronaReservar;
+import absolute.cinema.services.CinemaServices;
 import absolute.cinema.utils.Fila;
 import javax.swing.JOptionPane;
 import absolute.cinema.services.GeneroServices;
@@ -43,30 +44,30 @@ public class AbsoluteCinema {
                     "-- BEM-VINDO AO SISTEMA DO ABSOLUTE CINEMA --\n"
                     + "\n"
                     + "Serviços de Gênero:\n"
-                    + "OK 1- Criar novo Gênero.\n"
-                    + "OK 2- Mostrar Lista de Gêneros\n"
+                    + "1- Cadastrar novo Gênero.\n"
+                    + "2- Mostrar Lista de Gêneros.\n"
                     + "\n"
                     + "Serviços de Filme:\n"
-                    + "OK 40- Cadastrar Filme. (FILA)\n"
-                    + "OK 45- Mostrar Lista de Filmes Cadastrados\n"
-                    + "OK 50- Mostrar Fila de transferencia\n"
-                    + "OK 52- Mostrar Fila de Filmes Em Breve\n"
-                    + "OK 53- Mostrar Lista de Filmes Em Cartaz Hoje\n"
+                    + "3- Cadastrar novo Filme.\n"
+                    + "4- Mostrar Lista de Filmes Cadastrados.\n"
+                    + "5- Mostrar Fila de transferencia.\n"
+                    + "6- Mostrar Fila de Filmes Em Breve.\n"
+                    + "7- Mostrar Lista de Filmes Em Cartaz Hoje.\n"
                     + "\n"
                     + "Serviços de Cinema:\n"
-                    + "OK 55- Criar novo Cinema. (LISTA)\n"
-                    + "60- Mostrar Lista de Cinemas Cadastrados\n"
-                    + "65- Adicionar Filme ao Cinema\n"
+                    + "8- Cadastrar novo Cinema.\n"
+                    + "9- Mostrar Lista de Cinemas Cadastrados.\n"
+                    + "FALTA 65- Adicionar Filme ao Cinema.\n"
                     + "\n"
                     + "Serviços para Reserva:\n"
-                    + "OK 70- Criar uma reserva de lugar em LISTA.\n"
-                    + "OK 75- Gerar histórico das reservas. (PILHA)\n"
+                    + "70- Cadastrar nova Reserva de Poltrona.\n"
+                    + "75- Gerar histórico das reservas.\n"
                     + "\n"
                     + "Outros Serviços:\n"
-                    + "OK 80- Transferir - 'Fila de Transferencia' >> 'Fila Filmes em Breve'.\n"
-                    + "OK 85- Transferir - 'Fila Filmes em Breve' >> 'Lista de Filmes em Cartaz Hoje'.\n"
+                    + "80- Transferir - 'Fila de Transferencia' >> 'Fila Filmes em Breve'.\n"
+                    + "85- Transferir - 'Fila Filmes em Breve' >> 'Lista de Filmes em Cartaz Hoje'.\n"
                     + "\n"
-                    + "90- Buscar na ARVORE os cinemas em que determinado filme esta passando.\n"
+                    + "FALTA 90- Buscar na ARVORE os cinemas em que determinado filme esta passando.\n"
                     + "\n"
                     + "99- Sair.\n\n"));
 
@@ -80,57 +81,38 @@ public class AbsoluteCinema {
                     GeneroServices.MostrarListaGenero(listaGenero);
                     break;
 
-                case 40:
-                    FilmeServices.CadastroFilme(listaFilmes, listaGenero, filaDeTransferencia); // 3- Cadastrar Filme e adiciona-lo a uma Fila de Transferencia.
+                case 3:
+                    FilmeServices.CadastroFilme(listaFilmes, listaGenero, filaDeTransferencia);
                     break;
 
-                case 45:
-                    
+                case 4:
                     FilmeServices.MostrarListaFilmeCadastrados(listaFilmes);
                     break;
 
-                case 50:
-                    
+                case 5:
                     FilmeServices.MostrarFilaDeTransferencia(filaDeTransferencia);
-
                     break;
                     
-                case 52: 
-                    
+                case 6: 
                     FilmeServices.MostrarFilaEmBreve(filaFilmesEmBreve);
-                    
                     break;
                     
-                case 53:
-                    
+                case 7:
                     FilmeServices.MostrarListaEmCartazHoje(listaFilmeHoje);
-                    
                     break;
 
-                // 6- Insira um novo Cinema.
-                case 55:
-                    String nomeCinema = JOptionPane.showInputDialog(null, "Insira o nome do novo Cinema a ser cadastrado:");
-                    quantidadeDePoltronas = Integer.parseInt(JOptionPane.showInputDialog(null, "Insira a quantidade de poltronas existentes neste cinema:"));
-
-                    Cinema cinema = new Cinema(nomeCinema, quantidadeDePoltronas);
-
-                    listaCinemas.insereNo_fim(new IntNoSimples(cinema));
-
-                    listaCinemas.exibeListaCinema();
-
-                    JOptionPane.showMessageDialog(null, "Cinema criado com sucesso.");
-
+                case 8:                    
+                    CinemaServices.CadastrarCinema(listaCinemas, quantidadeDePoltronas);
                     break;
 
-                case 60:
-
+                case 9:
+                    CinemaServices.MostrarCinemasCadastrados(listaCinemas);
                     break;
 
                 case 65:
 
                     break;
 
-                // 7- Criar uma reserva de lugar em LISTA.
                 case 70:
                     if (listaCinemas.ContarNos() == 0) {
                         JOptionPane.showMessageDialog(null, "Por favor, crie um cinema para fazer uma reserva.");
@@ -202,7 +184,6 @@ public class AbsoluteCinema {
                     }
                     break;
 
-                // 8- Buscar historico de lugares na PILHA.
                 case 75:
                     if (pilhaHistoricoDeReserva.vazia()) {
                         JOptionPane.showMessageDialog(null, "Nenhuma reserva foi feita.");
@@ -213,7 +194,9 @@ public class AbsoluteCinema {
 
                         while (!pilhaHistoricoDeReserva.vazia()) {
                             PoltronaReservar poltrona = (PoltronaReservar) pilhaHistoricoDeReserva.desempilhar();
-                            historico.append(poltrona.toString()).append("\n");
+                            historico
+                                    .append(poltrona.imprimirCadastroPoltrona())
+                                    .append("\n");
                             tempPilha.empilhar(poltrona);
                         }
                         while (!tempPilha.vazia()) {
