@@ -1,5 +1,7 @@
 package absolute.cinema;
 
+import absolute.cinema.objetos.Cinema;
+import absolute.cinema.objetos.Filme;
 import absolute.cinema.utils.IntNoSimples;
 import absolute.cinema.utils.ListaEncadeada;
 import absolute.cinema.utils.Pilha;
@@ -10,7 +12,6 @@ import absolute.cinema.services.GeneroServices;
 import absolute.cinema.services.FilmeServices;
 import absolute.cinema.services.PoltronaReservarServices;
 import absolute.cinema.utils.ArvoreNaria;
-import absolute.cinema.utils.Nodo;
 
 public class AbsoluteCinema {
 
@@ -25,6 +26,11 @@ public class AbsoluteCinema {
         Pilha pilhaHistoricoDeReserva = new Pilha(20);
 
         //ArvoreNaria arvoreCinemas = new ArvoreNaria(0);
+        /*
+            Material utilizado e estudado para a criacao da arvore n-aria.
+            https://www.youtube.com/watch?v=cbOtqNKNZHw
+            https://www.each.usp.br/digiampietri/ACH2023/va19.pdf
+        */
         ArvoreNaria arvoreGeneroFilmeCinemaPoltrona = new ArvoreNaria("SelecionarOGenero");
 
         int opcao = 1;
@@ -49,17 +55,17 @@ public class AbsoluteCinema {
                     + "Serviços de Cinema:\n"
                     + "8- Cadastrar novo Cinema.\n"
                     + "9- Mostrar Lista de Cinemas Cadastrados.\n"
-                    + "FALTA 65- Adicionar Cinema ao Filme.\n"
+                    + "10- Adicionar Cinema ao Filme.\n"
                     + "\n"
                     + "Serviços de Reserva:\n"
-                    + "70- Cadastrar nova Reserva de Poltrona.\n"
-                    + "75- Gerar histórico das reservas.\n"
+                    + "11- Cadastrar nova Reserva de Poltrona.\n"
+                    + "12- Gerar histórico das reservas.\n"
                     + "\n"
                     + "Outros Serviços:\n"
-                    + "80- Transferir - 'Fila de Transferencia' >> 'Fila Filmes em Breve'.\n"
-                    + "85- Transferir - 'Fila Filmes em Breve' >> 'Lista de Filmes em Cartaz Hoje'.\n"
+                    + "13- Transferir - 'Fila de Transferencia' >> 'Fila Filmes em Breve'.\n"
+                    + "14- Transferir - 'Fila Filmes em Breve' >> 'Lista de Filmes em Cartaz Hoje'.\n"
                     + "\n"
-                    + "FALTA 90- Buscar na ARVORE os cinemas em que determinado filme esta passando.\n"
+                    + "15- Imprimir Árvore.\n"
                     + "\n"
                     + "99- Sair.\n\n"));
 
@@ -74,7 +80,7 @@ public class AbsoluteCinema {
                     break;
 
                 case 3:
-                    FilmeServices.CadastroFilme(listaFilmes, listaGenero, filaDeTransferencia,arvoreGeneroFilmeCinemaPoltrona);
+                    FilmeServices.CadastroFilme(listaFilmes, listaGenero, filaDeTransferencia, arvoreGeneroFilmeCinemaPoltrona);
                     break;
 
                 case 4:
@@ -101,107 +107,50 @@ public class AbsoluteCinema {
                     CinemaServices.MostrarCinemasCadastrados(listaCinemas);
                     break;
 
-                case 65:
-                    // -------- Adicionar Cinema ao Filme --------- FAZER -----------
-                    
-                    
-                    
-                    
+                case 10:
+                    // -------- Adicionar Cinema ao Filme ---------
+
+                    if (listaFilmeHoje.ContarNos() == 0) {
+                        JOptionPane.showMessageDialog(null, "Não há nenhum Filme Em Cartaz para que possa ser gerado algum vínculo.");
+                        
+                    } else if (listaCinemas.ContarNos() == 0) {
+                        JOptionPane.showMessageDialog(null, "Não há nenhum Cinema cadastrado para que possa ser gerado algum vínculo.");
+                    } else {
+                        Filme filmeSelecionado = FilmeServices.SelecionarFilmeEmCartaz(listaFilmeHoje); // return noEscolhido.valorFilme;
+                        Cinema cinemaSelecionado = CinemaServices.SelecionarCinema(listaCinemas); // return noEscolhido.valorCinema;
+                        
+                        arvoreGeneroFilmeCinemaPoltrona.insere(cinemaSelecionado, filmeSelecionado);
+                        
+                        JOptionPane.showMessageDialog(null, "O cinema ''" + cinemaSelecionado 
+                                + "'' foi vinculado ao filme ''" + filmeSelecionado + "''." 
+                                        + "\n" 
+                                        + "Repita a ação caso deseje vincular outro cinema a este filme.");
+                    }
                     break;
 
-                case 70:
-                    PoltronaReservarServices.CadastrarReservaPoltrona(listaCinemas, pilhaHistoricoDeReserva);
+                case 11:
+                    PoltronaReservarServices.CadastrarReservaPoltrona(listaCinemas, pilhaHistoricoDeReserva,arvoreGeneroFilmeCinemaPoltrona);
                     break;
 
-                case 75:
+                case 12:
                     PoltronaReservarServices.GerarHistoricoDasPoltronasReservadas(pilhaHistoricoDeReserva);
                     break;
 
-                case 80:
+                case 13:
                     filaFilmesEmBreve.enfileirar(filaDeTransferencia.desenfileirar());
                     filaDeTransferencia.exibeFilaDeTransferencia();
                     filaFilmesEmBreve.exibeFilaEmBreve();
                     break;
 
-                case 85:
+                case 14:
                     listaFilmeHoje.insereNo_fim(new IntNoSimples(filaFilmesEmBreve.desenfileirar()));
                     filaFilmesEmBreve.exibeFilaEmBreve();
                     listaFilmeHoje.exibeListaEmCartazHojeJOPT();
                     break;
 
-                case 90:
+                case 15:
                     // 11- Buscar na ARVORE os cinemas em que determinado filme esta passando.
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    /*
-                    String nomeFilmeBusca = JOptionPane.showInputDialog(null, "Insira o nome do filme que deseja buscar:");
-                    Nodo cinemaNode = arvoreCinemas.buscaChave(buscarIdFilme(nomeFilmeBusca), arvoreCinemas.getRaiz());
-                    if (cinemaNode != null) {
-                        String cinemas = buscarCinemasPorFilme(cinemaNode);
-                        JOptionPane.showMessageDialog(null, "O filme '" + nomeFilmeBusca + "' está passando nos seguintes cinemas:\n" + cinemas);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "O filme '" + nomeFilmeBusca + "' não está sendo exibido em nenhum cinema.");
-                    }
-                     */
-                    // -------------------------------------------------
-                    /*
-                    if (listaGenero.ContarNos() == 0) {
-                        JOptionPane.showMessageDialog(null, "Por favor, cadastre um gênero para realizar as suas pesquisas.");
-                    } else {
-                        StringBuilder opcoesGenero = new StringBuilder("Escolha o Gênero desejado:\n");
-                        IntNoSimples tempGenero = listaGenero.primeiro;
-                        int posicaoGenero = 1;
-                        while (tempGenero != null) {
-                            Genero genero = (Genero) tempGenero.valorGenero;
-                            opcoesGenero.append(posicaoGenero).append(": ").append(genero.getNome()).append("\n");
-                            tempGenero = tempGenero.prox;
-                            posicaoGenero++;
-                        }
-                        String escolhaGeneroStr = JOptionPane.showInputDialog(null, opcoesGenero.toString());
-                        int escolhaGenero = Integer.parseInt(escolhaGeneroStr) - 1;
-
-                        Nodo generoNode = arvoreGeneros.buscaChave(escolhaGenero, arvoreGeneros.getRaiz());
-                        if (generoNode == null || generoNode.primFilho == null) {
-                            JOptionPane.showMessageDialog(null, "Por favor, cadastre algum filme desse gênero para realizar as pesquisas.");
-                        } else {
-                            StringBuilder opcoesFilme = new StringBuilder("Escolha o Filme desejado:\n");
-                            Nodo tempFilme = generoNode.primFilho;
-                            int posicaoFilme = 1;
-                            while (tempFilme != null) {
-                                Filme filme = (Filme) tempFilme.chave;
-                                opcoesFilme.append(posicaoFilme).append(": ").append(filme.getNome()).append("\n");
-                                tempFilme = tempFilme.proxIrmao;
-                                posicaoFilme++;
-                            }
-                            String escolhaFilmeStr = JOptionPane.showInputDialog(null, opcoesFilme.toString());
-                            int escolhaFilme = Integer.parseInt(escolhaFilmeStr) - 1;
-
-                            Nodo filmeNode = arvoreGeneros.buscaChave(escolhaFilme, generoNode);
-                            if (filmeNode == null || filmeNode.primFilho == null) {
-                                JOptionPane.showMessageDialog(null, "Este filme não está passando em nenhum cinema.");
-                            } else {
-                                StringBuilder opcoesCinema = new StringBuilder("O filme está passando nos seguintes cinemas:\n");
-                                Nodo tempCinema = filmeNode.primFilho;
-                                while (tempCinema != null) {
-                                    Cinema cinema = (Cinema) tempCinema.chave;
-                                    opcoesCinema.append(cinema.getNome()).append("\n");
-                                    tempCinema = tempCinema.proxIrmao;
-                                }
-                                JOptionPane.showMessageDialog(null, opcoesCinema.toString());
-                            }
-                        }
-                    }
-                     */
+                    arvoreGeneroFilmeCinemaPoltrona.exibirArvore();
                     break;
 
                 case 99:
@@ -216,22 +165,4 @@ public class AbsoluteCinema {
 
     }
 
-    /*
-    private static int buscarIdFilme(String nomeFilme) {
-        // Implementar lógica para buscar o ID do filme pelo nome
-        // Supondo que a listaFilmes contém todos os filmes cadastrados
-        // Retorna -1 se não encontrado
-        return -1; // Exemplo de retorno
-    }
-
-    private static String buscarCinemasPorFilme(Nodo filmeNode) {
-        StringBuilder cinemas = new StringBuilder();
-        Nodo p = filmeNode.primFilho;
-        while (p != null) {
-            cinemas.append(p.chave).append("\n");
-            p = p.proxIrmao;
-        }
-        return cinemas.toString();
-    }
-     */
 }
