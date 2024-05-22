@@ -1,17 +1,14 @@
 package absolute.cinema;
 
-import absolute.cinema.objetos.Cinema;
 import absolute.cinema.utils.IntNoSimples;
 import absolute.cinema.utils.ListaEncadeada;
-import absolute.cinema.objetos.Genero;
 import absolute.cinema.utils.Pilha;
-import absolute.cinema.objetos.Filme;
-import absolute.cinema.objetos.PoltronaReservar;
 import absolute.cinema.services.CinemaServices;
 import absolute.cinema.utils.Fila;
 import javax.swing.JOptionPane;
 import absolute.cinema.services.GeneroServices;
 import absolute.cinema.services.FilmeServices;
+import absolute.cinema.services.PoltronaReservarServices;
 import absolute.cinema.utils.ArvoreNaria;
 import absolute.cinema.utils.Nodo;
 
@@ -21,19 +18,14 @@ public class AbsoluteCinema {
 
         ListaEncadeada listaGenero = new ListaEncadeada();
         ListaEncadeada listaFilmes = new ListaEncadeada();
-
         Fila filaDeTransferencia = new Fila(20);
-
+        Fila filaFilmesEmBreve = new Fila(20);
+        ListaEncadeada listaFilmeHoje = new ListaEncadeada();
+        ListaEncadeada listaCinemas = new ListaEncadeada();
         Pilha pilhaHistoricoDeReserva = new Pilha(20);
 
-        
-        Fila filaFilmesEmBreve = new Fila(20);
-
-        ListaEncadeada listaCinemas = new ListaEncadeada();
-
-        ListaEncadeada listaFilmeHoje = new ListaEncadeada();
-
-        ArvoreNaria arvoreCinemas = new ArvoreNaria(0);
+        //ArvoreNaria arvoreCinemas = new ArvoreNaria(0);
+        ArvoreNaria arvoreGeneroFilmeCinemaPoltrona = new ArvoreNaria("SelecionarOGenero");
 
         int opcao = 1;
 
@@ -57,9 +49,9 @@ public class AbsoluteCinema {
                     + "Serviços de Cinema:\n"
                     + "8- Cadastrar novo Cinema.\n"
                     + "9- Mostrar Lista de Cinemas Cadastrados.\n"
-                    + "FALTA 65- Adicionar Filme ao Cinema.\n"
+                    + "FALTA 65- Adicionar Cinema ao Filme.\n"
                     + "\n"
-                    + "Serviços para Reserva:\n"
+                    + "Serviços de Reserva:\n"
                     + "70- Cadastrar nova Reserva de Poltrona.\n"
                     + "75- Gerar histórico das reservas.\n"
                     + "\n"
@@ -74,7 +66,7 @@ public class AbsoluteCinema {
             switch (opcao) {
 
                 case 1:
-                    GeneroServices.CadastrarGenero(listaGenero);
+                    GeneroServices.CadastrarGenero(listaGenero, arvoreGeneroFilmeCinemaPoltrona);
                     break;
 
                 case 2:
@@ -82,7 +74,7 @@ public class AbsoluteCinema {
                     break;
 
                 case 3:
-                    FilmeServices.CadastroFilme(listaFilmes, listaGenero, filaDeTransferencia);
+                    FilmeServices.CadastroFilme(listaFilmes, listaGenero, filaDeTransferencia,arvoreGeneroFilmeCinemaPoltrona);
                     break;
 
                 case 4:
@@ -92,16 +84,16 @@ public class AbsoluteCinema {
                 case 5:
                     FilmeServices.MostrarFilaDeTransferencia(filaDeTransferencia);
                     break;
-                    
-                case 6: 
+
+                case 6:
                     FilmeServices.MostrarFilaEmBreve(filaFilmesEmBreve);
                     break;
-                    
+
                 case 7:
                     FilmeServices.MostrarListaEmCartazHoje(listaFilmeHoje);
                     break;
 
-                case 8:                    
+                case 8:
                     CinemaServices.CadastrarCinema(listaCinemas, quantidadeDePoltronas);
                     break;
 
@@ -110,100 +102,18 @@ public class AbsoluteCinema {
                     break;
 
                 case 65:
-
+                    // ------------------------------ FAZER -----------------------------------
+                    
+                    
+                    
                     break;
 
                 case 70:
-                    if (listaCinemas.ContarNos() == 0) {
-                        JOptionPane.showMessageDialog(null, "Por favor, crie um cinema para fazer uma reserva.");
-                    } else {
-                        StringBuilder opcoesCinema = new StringBuilder();
-
-                        IntNoSimples temp_no = listaCinemas.primeiro;
-                        int posicao = 0;
-
-                        while (temp_no != null) {
-                            opcoesCinema.append(posicao + 1)
-                                    .append(": ")
-                                    .append(temp_no.valorCinema.getNome())
-                                    .append(" - Quantidade máxima de poltronas: ")
-                                    .append(temp_no.valorCinema.getQuantidadePoltronas())
-                                    .append("\n");
-
-                            temp_no = temp_no.prox;
-                            posicao++;
-                        }
-
-                        String escolhaCinema = JOptionPane.showInputDialog(null,
-                                "Escolha o cinema que deseja realizar a reserva:\n" + opcoesCinema.toString());
-
-                        if (escolhaCinema != null && !escolhaCinema.trim().isEmpty()) {
-                            try {
-                                int escolha = Integer.parseInt(escolhaCinema) - 1;
-
-                                if (escolha < 0 || escolha >= listaCinemas.ContarNos()) {
-                                    JOptionPane.showMessageDialog(null, "Opção inválida. Por favor, insira um número válido.");
-                                    break;
-                                }
-
-                                IntNoSimples noEscolhido = listaCinemas.primeiro;
-                                for (int j = 0; j < escolha; j++) {
-                                    noEscolhido = noEscolhido.prox;
-                                }
-
-                                Cinema cinemaEscolhido = noEscolhido.valorCinema;
-
-                                String numeroPoltronaStr = JOptionPane.showInputDialog(null,
-                                        "Digite o número da poltrona que deseja reservar (" + cinemaEscolhido.getQuantidadePoltronas() + "):");
-
-                                if (numeroPoltronaStr != null && !numeroPoltronaStr.trim().isEmpty()) {
-                                    try {
-                                        int numeroPoltrona = Integer.parseInt(numeroPoltronaStr);
-                                        if (numeroPoltrona < 1 || numeroPoltrona > cinemaEscolhido.getQuantidadePoltronas()) {
-                                            JOptionPane.showMessageDialog(null, "Número da poltrona inválido. Por favor, insira um número entre 1 e " + cinemaEscolhido.getQuantidadePoltronas() + ".");
-                                        } else {
-                                            if (cinemaEscolhido.reservarPoltrona(numeroPoltrona)) {
-                                                pilhaHistoricoDeReserva.empilhar(new PoltronaReservar(numeroPoltrona, cinemaEscolhido)); // já empilha para o case 8
-                                                JOptionPane.showMessageDialog(null, "Poltrona " + numeroPoltrona + " reservada com sucesso.");
-                                            } else {
-                                                JOptionPane.showMessageDialog(null, "Poltrona " + numeroPoltrona + " já está reservada, por favor, selecione outra poltrona.");
-                                            }
-                                        }
-                                    } catch (NumberFormatException e) {
-                                        JOptionPane.showMessageDialog(null, "Número da poltrona inválido. Por favor, insira um número válido.");
-                                    }
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "Número da poltrona inválido.");
-                                }
-                            } catch (NumberFormatException e) {
-                                JOptionPane.showMessageDialog(null, "Opção inválida. Por favor, insira um número válido.");
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Opção inválida.");
-                        }
-                    }
+                    PoltronaReservarServices.CadastrarReservaPoltrona(listaCinemas, pilhaHistoricoDeReserva);
                     break;
 
                 case 75:
-                    if (pilhaHistoricoDeReserva.vazia()) {
-                        JOptionPane.showMessageDialog(null, "Nenhuma reserva foi feita.");
-                    } else {
-                        StringBuilder historico = new StringBuilder("Histórico de reservas:\n");
-
-                        Pilha tempPilha = new Pilha(20);
-
-                        while (!pilhaHistoricoDeReserva.vazia()) {
-                            PoltronaReservar poltrona = (PoltronaReservar) pilhaHistoricoDeReserva.desempilhar();
-                            historico
-                                    .append(poltrona.imprimirCadastroPoltrona())
-                                    .append("\n");
-                            tempPilha.empilhar(poltrona);
-                        }
-                        while (!tempPilha.vazia()) {
-                            pilhaHistoricoDeReserva.empilhar(tempPilha.desempilhar());
-                        }
-                        JOptionPane.showMessageDialog(null, historico.toString());
-                    }
+                    PoltronaReservarServices.GerarHistoricoDasPoltronasReservadas(pilhaHistoricoDeReserva);
                     break;
 
                 case 80:
@@ -218,9 +128,21 @@ public class AbsoluteCinema {
                     listaFilmeHoje.exibeListaEmCartazHojeJOPT();
                     break;
 
-                
                 case 90:
                     // 11- Buscar na ARVORE os cinemas em que determinado filme esta passando.
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    /*
                     String nomeFilmeBusca = JOptionPane.showInputDialog(null, "Insira o nome do filme que deseja buscar:");
                     Nodo cinemaNode = arvoreCinemas.buscaChave(buscarIdFilme(nomeFilmeBusca), arvoreCinemas.getRaiz());
                     if (cinemaNode != null) {
@@ -229,7 +151,7 @@ public class AbsoluteCinema {
                     } else {
                         JOptionPane.showMessageDialog(null, "O filme '" + nomeFilmeBusca + "' não está sendo exibido em nenhum cinema.");
                     }
-
+                     */
                     // -------------------------------------------------
                     /*
                     if (listaGenero.ContarNos() == 0) {
@@ -293,6 +215,7 @@ public class AbsoluteCinema {
 
     }
 
+    /*
     private static int buscarIdFilme(String nomeFilme) {
         // Implementar lógica para buscar o ID do filme pelo nome
         // Supondo que a listaFilmes contém todos os filmes cadastrados
@@ -309,5 +232,5 @@ public class AbsoluteCinema {
         }
         return cinemas.toString();
     }
-
+     */
 }

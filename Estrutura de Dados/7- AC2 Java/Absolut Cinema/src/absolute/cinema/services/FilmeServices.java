@@ -2,6 +2,7 @@ package absolute.cinema.services;
 
 import absolute.cinema.objetos.Filme;
 import absolute.cinema.objetos.Genero;
+import absolute.cinema.utils.ArvoreNaria;
 import absolute.cinema.utils.IntNoSimples;
 import javax.swing.JOptionPane;
 import absolute.cinema.utils.ListaEncadeada;
@@ -18,13 +19,13 @@ public class FilmeServices {
                     + "53- Mostrar Lista de Filmes Em Cartaz Hoje\n"
     
      */
-    public static void CadastroFilme(ListaEncadeada listaFilmes, ListaEncadeada listaGenero, Fila filaDeTransferencia) {
+    public static void CadastroFilme(ListaEncadeada listaFilmes, ListaEncadeada listaGeneros, Fila filaDeTransferencia, ArvoreNaria arvore) {
 
-        if (listaGenero.ContarNos() == 0) {
+        if (listaGeneros.ContarNos() == 0) {
             JOptionPane.showMessageDialog(null, "Por favor, crie ao menos um gênero antes de cadastrar qualquer filme.");
         } else {
 
-            Genero generoEscolhido = GeneroServices.SelecionarGenero(listaGenero);
+            Genero generoEscolhido = GeneroServices.SelecionarGenero(listaGeneros);
 
             String nomeFilme = JOptionPane.showInputDialog(null,
                     "Digite o nome do filme que deseja cadastrar:");
@@ -37,6 +38,7 @@ public class FilmeServices {
             listaFilmes.insereNo_fim(new IntNoSimples(filme));
             filaDeTransferencia.enfileirar(filme);
             listaFilmes.exibeListaFilme();
+            arvore.insere(filme, generoEscolhido);
 
             JOptionPane.showMessageDialog(null, "O filme ''" + filme + "'' do gênero ''" + generoEscolhido + "'' foi criado e adicionado à fila com sucesso.");
             filaDeTransferencia.exibeFilaDeTransferencia();
