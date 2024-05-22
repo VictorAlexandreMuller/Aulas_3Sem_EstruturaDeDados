@@ -1,6 +1,7 @@
 package absolute.cinema.services;
 
 import absolute.cinema.objetos.Genero;
+import absolute.cinema.utils.ArvoreNaria;
 import javax.swing.JOptionPane;
 import absolute.cinema.utils.IntNoSimples;
 import absolute.cinema.utils.ListaEncadeada;
@@ -15,13 +16,15 @@ public class GeneroServices {
     
     */
 
-    public static void CadastrarGenero(ListaEncadeada listaGenero) {
+    public static void CadastrarGenero(ListaEncadeada listaGenero, ArvoreNaria arvore) {
 
         Genero genero = new Genero(JOptionPane.showInputDialog(null, "Insira o nome do novo Gênero:"));
 
         listaGenero.insereNo_fim(new IntNoSimples(genero));
 
         listaGenero.exibeListaGenero();
+        
+        arvore.insere(genero, "SelecionarOGenero");
 
         JOptionPane.showMessageDialog(null, "Gênero ''" + genero + "'' criado com sucesso.");
     }
@@ -32,10 +35,10 @@ public class GeneroServices {
         return null;
     }
 
-    public static Genero SelecionarGenero(ListaEncadeada listaGenero) {
+    public static Genero SelecionarGenero(ListaEncadeada listaGeneros) {
 
         StringBuilder opcoesGenero = new StringBuilder();
-        IntNoSimples temp_no = listaGenero.primeiro;
+        IntNoSimples temp_no = listaGeneros.primeiro;
         int posicao = 0;
 
         while (temp_no != null) {
@@ -58,12 +61,13 @@ public class GeneroServices {
 
         int escolha = Integer.parseInt(escolhaGenero) - 1;
 
-        if (escolha < 0 || escolha >= listaGenero.ContarNos()) {
-            JOptionPane.showMessageDialog(null, "Opção inválida. Por favor, insira uma opção válida.");
+        if (escolha < 0 || escolha >= listaGeneros.ContarNos()) {
+            JOptionPane.showMessageDialog(null,
+                    "Opção inválida. Por favor, insira uma opção válida.");
             return null;
         }
 
-        IntNoSimples noEscolhido = listaGenero.primeiro;
+        IntNoSimples noEscolhido = listaGeneros.primeiro;
         for (int j = 0; j < escolha; j++) {
             noEscolhido = noEscolhido.prox;
         }

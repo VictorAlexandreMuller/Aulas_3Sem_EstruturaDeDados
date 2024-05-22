@@ -1,15 +1,28 @@
 package absolute.cinema.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Nodo {
+    
+    private Object valor;
+    private List<Nodo> filhos;
 
-    public int chave;
-    public Nodo primFilho;
-    public Nodo proxIrmao;
-
-    public Nodo(int chave) {
-        this.chave = chave;
-        this.primFilho = null;
-        this.proxIrmao = null;
+    public Nodo(Object valor) {
+        this.valor = valor;
+        this.filhos = new ArrayList<>();
     }
 
+    public Object getValor() {
+        return valor;
+    }
+
+    public void adicionarFilho(Nodo filho) {
+        this.filhos.add(filho);
+    }
+
+    public List<Nodo> getFilhos() {
+        return filhos;
+    }
+    
 }

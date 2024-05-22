@@ -4,55 +4,47 @@ public class ArvoreNaria {
 
     private Nodo raiz;
 
-    public ArvoreNaria(int chaveRaiz) {
-        raiz = new Nodo(chaveRaiz);
+    public ArvoreNaria(Object valorRaiz) {
+        raiz = new Nodo(valorRaiz);
     }
 
-    public Nodo buscaChave(int chave, Nodo raiz) {
-        if (raiz == null) {
+    public Nodo getRaiz() {
+        return raiz;
+    }
+
+    public Nodo buscaNodo(Object valor, Nodo nodo) {
+        if (nodo == null) {
             return null;
         }
-        if (raiz.chave == chave) {
-            return raiz;
+        if (nodo.getValor().equals(valor)) {
+            return nodo;
         }
-        Nodo p = raiz.primFilho;
-        while (p != null) {
-            Nodo resp = buscaChave(chave, p);
-            if (resp != null) {
-                return resp;
+        for (Nodo filho : nodo.getFilhos()) {
+            Nodo resultado = buscaNodo(valor, filho);
+            if (resultado != null) {
+                return resultado;
             }
-            p = p.proxIrmao;
         }
         return null;
     }
 
-    public boolean insere(int novaChave, int chavePai) {
-        Nodo pai = buscaChave(chavePai, raiz);
+    public boolean insere(Object novoValor, Object valorPai) {
+        Nodo pai = buscaNodo(valorPai, raiz);
         if (pai == null) {
             return false;
         }
-        Nodo filho = new Nodo(novaChave);
-        if (pai.primFilho == null) {
-            pai.primFilho = filho;
-        } else {
-            Nodo p = pai.primFilho;
-            while (p.proxIrmao != null) {
-                p = p.proxIrmao;
-            }
-            p.proxIrmao = filho;
-        }
+        Nodo filho = new Nodo(novoValor);
+        pai.adicionarFilho(filho);
         return true;
     }
 
-    public void exibirArvore(Nodo raiz) {
-        if (raiz == null) {
+    public void exibirArvore(Nodo nodo) {
+        if (nodo == null) {
             return;
         }
-        System.out.print(raiz.chave + "(");
-        Nodo p = raiz.primFilho;
-        while (p != null) {
-            exibirArvore(p);
-            p = p.proxIrmao;
+        System.out.print(nodo.getValor().toString() + "(");
+        for (Nodo filho : nodo.getFilhos()) {
+            exibirArvore(filho);
         }
         System.out.print(")");
     }
@@ -61,9 +53,4 @@ public class ArvoreNaria {
         exibirArvore(raiz);
         System.out.println();
     }
-
-    public Nodo getRaiz() {
-        return raiz;
-    }
-
 }
