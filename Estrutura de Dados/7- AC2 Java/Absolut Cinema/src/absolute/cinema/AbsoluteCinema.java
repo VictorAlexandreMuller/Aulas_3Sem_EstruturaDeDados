@@ -110,10 +110,7 @@ public class AbsoluteCinema {
                     break;
 
                 case 10:
-                    // -------- Adicionar Cinema ao Filme ---------
-
                     FilmeServices.FilmeAddCinema(listaFilmeHoje, listaCinemas, arvoreGeneroFilmeCinemaPoltrona);
-
                     break;
 
                 case 11:
@@ -125,15 +122,23 @@ public class AbsoluteCinema {
                     break;
 
                 case 13:
-                    filaFilmesEmBreve.enfileirar(filaDeTransferencia.desenfileirar());
-                    filaDeTransferencia.exibeFilaDeTransferencia();
-                    filaFilmesEmBreve.exibeFilaEmBreve();
+                    if (filaDeTransferencia.vazia()) {
+                        JOptionPane.showMessageDialog(null, "A Fila de Transferencia encontra-se vazia.");
+                    } else {
+                        filaFilmesEmBreve.enfileirar(filaDeTransferencia.desenfileirar());
+                        filaDeTransferencia.exibeFilaDeTransferencia();
+                        filaFilmesEmBreve.exibeFilaEmBreve();
+                    }
                     break;
 
                 case 14:
-                    listaFilmeHoje.insereNo_fim(new IntNoSimples(filaFilmesEmBreve.desenfileirar()));
-                    filaFilmesEmBreve.exibeFilaEmBreve();
-                    listaFilmeHoje.exibeListaEmCartazHojeJOPT();
+                    if (filaFilmesEmBreve.vazia()) {
+                        JOptionPane.showMessageDialog(null, "A Fila de Filmes Em Breve encontra-se vazia.");
+                    } else {
+                        listaFilmeHoje.insereNo_fim(new IntNoSimples(filaFilmesEmBreve.desenfileirar()));
+                        filaFilmesEmBreve.exibeFilaEmBreve();
+                        listaFilmeHoje.exibeListaEmCartazHojeJOPT();
+                    }
                     break;
 
                 case 15:

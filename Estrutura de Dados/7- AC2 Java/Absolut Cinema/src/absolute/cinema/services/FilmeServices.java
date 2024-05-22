@@ -8,6 +8,7 @@ import absolute.cinema.utils.IntNoSimples;
 import javax.swing.JOptionPane;
 import absolute.cinema.utils.ListaEncadeada;
 import absolute.cinema.utils.Fila;
+import absolute.cinema.utils.Nodo;
 
 public class FilmeServices {
 
@@ -122,26 +123,44 @@ public class FilmeServices {
         return noEscolhido.valorFilme;
     }
 
-    public static Filme FilmeAddCinema(ListaEncadeada listaFilmeHoje, ListaEncadeada listaCinemas, ArvoreNaria arvoreGeneroFilmeCinemaPoltrona) {
-        if (listaFilmeHoje.ContarNos() == 0) {
-            JOptionPane.showMessageDialog(null, "Não há nenhum Filme Em Cartaz para que possa ser gerado algum vínculo.");
-            return null;
-        } else if (listaCinemas.ContarNos() == 0) {
-            JOptionPane.showMessageDialog(null, "Não há nenhum Cinema cadastrado para que possa ser gerado algum vínculo.");
+    public static void FilmeAddCinema(ListaEncadeada listaFilmeHoje, ListaEncadeada listaCinemas, ArvoreNaria arvoreGeneroFilmeCinemaPoltrona) {
+        if (listaFilmeHoje.ContarNos() == 0 || listaCinemas.ContarNos() == 0) {
+            JOptionPane.showMessageDialog(null,
+                    "Não há nenhum Filme Em Cartaz ou nenhum Cinema cadastrado para que possa ser gerado algum vínculo."
+                    + "\n"
+                    + "Por favor, verifique novamente os Filmes Em Cartaz e os Cinemas antes de utilizar esta chamada novamente.");
+            return;
         }
 
         Filme filmeSelecionado = FilmeServices.SelecionarFilmeEmCartaz(listaFilmeHoje); // return noEscolhido.valorFilme;
-
-        Cinema cinemaSelecionado = CinemaServices.SelecionarCinema(listaCinemas); // return noEscolhido.valorCinema;
+        if (filmeSelecionado == null) {
+            return;
+        }
         
+        Cinema cinemaSelecionado = CinemaServices.SelecionarCinema(listaCinemas); // return noEscolhido.valorCinema;
+        if (cinemaSelecionado == null) {
+            return;
+        }
+        
+        Nodo nodoFilme = arvoreGeneroFilmeCinemaPoltrona.buscaNodo(filmeSelecionado, arvoreGeneroFilmeCinemaPoltrona.getRaiz());
+
+        // verifica se já existe aquele cinema àquele filme
+        if (nodoFilme != null) {
+            for (Nodo nodoCinema : nodoFilme.getFilhos()) {
+                if (cinemaSelecionado.equals(nodoCinema.getValor())){
+                    JOptionPane.showMessageDialog(null, 
+                            "Este cinema já está cadastrado neste filme.");
+                    return;
+                }
+            }
+        }
+
         arvoreGeneroFilmeCinemaPoltrona.insere(cinemaSelecionado, filmeSelecionado);
 
         JOptionPane.showMessageDialog(null, "O cinema ''" + cinemaSelecionado
                 + "'' foi vinculado ao filme ''" + filmeSelecionado + "''."
                 + "\n"
                 + "Repita a ação caso deseje vincular outro cinema a este filme.");
-        
-        return null;
     }
 
 }
