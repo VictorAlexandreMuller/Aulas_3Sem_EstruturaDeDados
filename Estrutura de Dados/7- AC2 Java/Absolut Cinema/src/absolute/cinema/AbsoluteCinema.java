@@ -30,7 +30,7 @@ public class AbsoluteCinema {
             Material utilizado e estudado para a criacao da arvore n-aria.
             https://www.youtube.com/watch?v=cbOtqNKNZHw
             https://www.each.usp.br/digiampietri/ACH2023/va19.pdf
-        */
+         */
         ArvoreNaria arvoreGeneroFilmeCinemaPoltrona = new ArvoreNaria("SelecionarOGenero");
 
         int opcao = 1;
@@ -65,7 +65,9 @@ public class AbsoluteCinema {
                     + "13- Transferir - 'Fila de Transferencia' >> 'Fila Filmes em Breve'.\n"
                     + "14- Transferir - 'Fila Filmes em Breve' >> 'Lista de Filmes em Cartaz Hoje'.\n"
                     + "\n"
+                    + "Serviços de Busca:\n"
                     + "15- Imprimir Árvore.\n"
+                    + "16- Imprimir os cinemas de um Filme.\n"
                     + "\n"
                     + "99- Sair.\n\n"));
 
@@ -110,26 +112,12 @@ public class AbsoluteCinema {
                 case 10:
                     // -------- Adicionar Cinema ao Filme ---------
 
-                    if (listaFilmeHoje.ContarNos() == 0) {
-                        JOptionPane.showMessageDialog(null, "Não há nenhum Filme Em Cartaz para que possa ser gerado algum vínculo.");
-                        
-                    } else if (listaCinemas.ContarNos() == 0) {
-                        JOptionPane.showMessageDialog(null, "Não há nenhum Cinema cadastrado para que possa ser gerado algum vínculo.");
-                    } else {
-                        Filme filmeSelecionado = FilmeServices.SelecionarFilmeEmCartaz(listaFilmeHoje); // return noEscolhido.valorFilme;
-                        Cinema cinemaSelecionado = CinemaServices.SelecionarCinema(listaCinemas); // return noEscolhido.valorCinema;
-                        
-                        arvoreGeneroFilmeCinemaPoltrona.insere(cinemaSelecionado, filmeSelecionado);
-                        
-                        JOptionPane.showMessageDialog(null, "O cinema ''" + cinemaSelecionado 
-                                + "'' foi vinculado ao filme ''" + filmeSelecionado + "''." 
-                                        + "\n" 
-                                        + "Repita a ação caso deseje vincular outro cinema a este filme.");
-                    }
+                    FilmeServices.FilmeAddCinema(listaFilmeHoje, listaCinemas, arvoreGeneroFilmeCinemaPoltrona);
+
                     break;
 
                 case 11:
-                    PoltronaReservarServices.CadastrarReservaPoltrona(listaCinemas, pilhaHistoricoDeReserva,arvoreGeneroFilmeCinemaPoltrona);
+                    PoltronaReservarServices.CadastrarReservaPoltrona(listaFilmes, listaCinemas, pilhaHistoricoDeReserva, arvoreGeneroFilmeCinemaPoltrona);
                     break;
 
                 case 12:
@@ -149,8 +137,19 @@ public class AbsoluteCinema {
                     break;
 
                 case 15:
-                    // 11- Buscar na ARVORE os cinemas em que determinado filme esta passando.
                     arvoreGeneroFilmeCinemaPoltrona.exibirArvore();
+                    break;
+
+                case 16:
+
+                    Filme filmeSelecionado2 = FilmeServices.SelecionarFilmeEmCartaz(listaFilmeHoje);
+
+                    arvoreGeneroFilmeCinemaPoltrona
+                            .exibirArvore(
+                                    arvoreGeneroFilmeCinemaPoltrona.buscaNodo(
+                                            filmeSelecionado2,
+                                            arvoreGeneroFilmeCinemaPoltrona.getRaiz()),
+                                    true);
                     break;
 
                 case 99:

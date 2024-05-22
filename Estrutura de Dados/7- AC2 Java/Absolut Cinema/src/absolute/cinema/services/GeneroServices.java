@@ -7,15 +7,14 @@ import absolute.cinema.utils.IntNoSimples;
 import absolute.cinema.utils.ListaEncadeada;
 
 public class GeneroServices {
-    
+
     /*
     
     "Serviços de Gênero:\n"
                     + "OK 1- Criar novo Gênero.\n"
                     + "OK 2- Mostrar Lista de Gêneros\n"
     
-    */
-
+     */
     public static void CadastrarGenero(ListaEncadeada listaGenero, ArvoreNaria arvore) {
 
         Genero genero = new Genero(JOptionPane.showInputDialog(null, "Insira o nome do novo Gênero:"));
@@ -23,14 +22,14 @@ public class GeneroServices {
         listaGenero.insereNo_fim(new IntNoSimples(genero));
 
         listaGenero.exibeListaGenero();
-        
+
         arvore.insere(genero, "SelecionarOGenero");
 
         JOptionPane.showMessageDialog(null, "Gênero ''" + genero + "'' criado com sucesso.");
     }
-    
-    public static Genero MostrarListaGenero (ListaEncadeada listaGenero) {
-        
+
+    public static Genero MostrarListaGenero(ListaEncadeada listaGenero) {
+
         listaGenero.exibeListaGeneroJOPT();
         return null;
     }
@@ -54,16 +53,23 @@ public class GeneroServices {
         String escolhaGenero = JOptionPane.showInputDialog(null,
                 "Escolha o Gênero do filme a ser cadastrado:\n" + opcoesGenero.toString());
 
-        if (escolhaGenero == null || escolhaGenero.trim().isEmpty()) { // O método trim() remove espaços em branco de ambas as extremidades de uma string.
+        if (escolhaGenero == null || escolhaGenero.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Opção inválida.");
             return null;
         }
 
-        int escolha = Integer.parseInt(escolhaGenero) - 1;
+        int escolha;
+
+        try {
+            escolha = Integer.parseInt(escolhaGenero) - 1;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Opção inválida.");
+            return null;
+        }
 
         if (escolha < 0 || escolha >= listaGeneros.ContarNos()) {
             JOptionPane.showMessageDialog(null,
-                    "Opção inválida. Por favor, insira uma opção válida.");
+                    "Opção inválida.");
             return null;
         }
 
