@@ -2,6 +2,7 @@ package absolute.cinema.services;
 
 import absolute.cinema.objetos.Cinema;
 import absolute.cinema.objetos.PoltronaReservar;
+import absolute.cinema.utils.ArvoreNaria;
 import absolute.cinema.utils.ListaEncadeada;
 import absolute.cinema.utils.Pilha;
 import javax.swing.JOptionPane;
@@ -15,7 +16,7 @@ public class PoltronaReservarServices {
                     + "75- Gerar histórico das reservas.\n"
     
      */
-    public static void CadastrarReservaPoltrona(ListaEncadeada listaCinemas, Pilha pilhaHistoricoDeReserva) {
+    public static void CadastrarReservaPoltrona(ListaEncadeada listaCinemas, Pilha pilhaHistoricoDeReserva, ArvoreNaria arvore) {
 
         if (listaCinemas.ContarNos() == 0) {
             JOptionPane.showMessageDialog(null, "Por favor, crie um cinema para fazer uma reserva.");
@@ -23,6 +24,12 @@ public class PoltronaReservarServices {
 
             Cinema cinemaEscolhido = CinemaServices.SelecionarCinema(listaCinemas);
 
+            // BUSCAR NODO DO CINEMA-ESCOLHIDO NA ARVORE, SE SIM: CONTINUAR, SE NAO: BARRAR
+            
+            if (arvore.buscaNodo(cinemaEscolhido, arvore.getRaiz()) == null) {
+                JOptionPane.showMessageDialog(null, "O cinema escolhido não pode fazer reservas enquanto não estiver vinculado a algum filme. XD");
+            } else {
+            
             String numeroPoltronaStr = JOptionPane.showInputDialog(null,
                     "Digite o número da poltrona que deseja reservar (" + cinemaEscolhido.getQuantidadePoltronas() + "):");
 
@@ -38,12 +45,13 @@ public class PoltronaReservarServices {
                     if (cinemaEscolhido.reservarPoltrona(numeroPoltrona)) {
                         pilhaHistoricoDeReserva.empilhar(new PoltronaReservar(numeroPoltrona, cinemaEscolhido));
                         JOptionPane.showMessageDialog(null, "Poltrona " + numeroPoltrona + " reservada com sucesso.");
+                        arvore.insere(numeroPoltrona, cinemaEscolhido);
                     } else {
                         JOptionPane.showMessageDialog(null, "Poltrona " + numeroPoltrona + " já está reservada, por favor, selecione outra poltrona.");
                     }
                 }
             }
-        }
+        }}
     }
     
     public static PoltronaReservar GerarHistoricoDasPoltronasReservadas (Pilha pilhaHistoricoDeReserva) {

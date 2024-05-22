@@ -68,4 +68,44 @@ public class FilmeServices {
         listaEmCartazHoje.exibeListaEmCartazHojeJOPT();
         return null;
     }
+    
+    public static Filme SelecionarFilmeEmCartaz(ListaEncadeada listaEmCartazHoje) {
+        
+        StringBuilder opcoesFilmeEmCartaz = new StringBuilder();
+        IntNoSimples temp_no = listaEmCartazHoje.primeiro;
+        int posicao = 0;
+
+        while (temp_no != null) {
+            opcoesFilmeEmCartaz.append(posicao + 1)
+                    .append(": ")
+                    .append(temp_no.valorFilme.getNome())
+                    .append("\n");
+
+            temp_no = temp_no.prox;
+            posicao++;
+        }
+
+        String escolhaFilmeEmCartaz = JOptionPane.showInputDialog(null,
+                "Primeiro escolha o Filme Em Cartaz a ser vinculado a algum Cinema:\n" + opcoesFilmeEmCartaz.toString());
+
+        if (escolhaFilmeEmCartaz == null || escolhaFilmeEmCartaz.trim().isEmpty()) { // O método trim() remove espaços em branco de ambas as extremidades de uma string.
+            JOptionPane.showMessageDialog(null, "Opção inválida.");
+            return null;
+        }
+
+        int escolha = Integer.parseInt(escolhaFilmeEmCartaz) - 1;
+
+        if (escolha < 0 || escolha >= listaEmCartazHoje.ContarNos()) {
+            JOptionPane.showMessageDialog(null,
+                    "Opção inválida. Por favor, insira uma opção válida.");
+            return null;
+        }
+
+        IntNoSimples noEscolhido = listaEmCartazHoje.primeiro;
+        for (int j = 0; j < escolha; j++) {
+            noEscolhido = noEscolhido.prox;
+        }
+
+        return noEscolhido.valorFilme;
+    }
 }
