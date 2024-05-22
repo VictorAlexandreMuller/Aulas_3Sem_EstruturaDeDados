@@ -1,6 +1,5 @@
 package absolute.cinema;
 
-import absolute.cinema.objetos.Cinema;
 import absolute.cinema.objetos.Filme;
 import absolute.cinema.utils.IntNoSimples;
 import absolute.cinema.utils.ListaEncadeada;
@@ -38,132 +37,142 @@ public class AbsoluteCinema {
         int quantidadeDePoltronas = 0;
 
         while (opcao != 99) {
-            opcao = Integer.parseInt(JOptionPane.showInputDialog(null,
-                    "-- BEM-VINDO AO SISTEMA DO ABSOLUTE CINEMA --\n"
-                    + "\n"
-                    + "Serviços de Gênero:\n"
-                    + "1- Cadastrar novo Gênero.\n"
-                    + "2- Mostrar Lista de Gêneros.\n"
-                    + "\n"
-                    + "Serviços de Filme:\n"
-                    + "3- Cadastrar novo Filme.\n"
-                    + "4- Mostrar Lista de Filmes Cadastrados.\n"
-                    + "5- Mostrar Fila de transferencia.\n"
-                    + "6- Mostrar Fila de Filmes Em Breve.\n"
-                    + "7- Mostrar Lista de Filmes Em Cartaz Hoje.\n"
-                    + "\n"
-                    + "Serviços de Cinema:\n"
-                    + "8- Cadastrar novo Cinema.\n"
-                    + "9- Mostrar Lista de Cinemas Cadastrados.\n"
-                    + "10- Adicionar Cinema ao Filme.\n"
-                    + "\n"
-                    + "Serviços de Reserva:\n"
-                    + "11- Cadastrar nova Reserva de Poltrona.\n"
-                    + "12- Gerar histórico das reservas.\n"
-                    + "\n"
-                    + "Outros Serviços:\n"
-                    + "13- Transferir - 'Fila de Transferencia' >> 'Fila Filmes em Breve'.\n"
-                    + "14- Transferir - 'Fila Filmes em Breve' >> 'Lista de Filmes em Cartaz Hoje'.\n"
-                    + "\n"
-                    + "Serviços de Busca:\n"
-                    + "15- Imprimir Árvore.\n"
-                    + "16- Imprimir os cinemas de um Filme.\n"
-                    + "\n"
-                    + "99- Sair.\n\n"));
+            try {
+                String input = JOptionPane.showInputDialog(null,
+                        "-- BEM-VINDO AO SISTEMA DO ABSOLUTE CINEMA --\n"
+                        + "\n"
+                        + "Serviços de Gênero:\n"
+                        + "1- Cadastrar novo Gênero.\n"
+                        + "2- Mostrar Lista de Gêneros.\n"
+                        + "\n"
+                        + "Serviços de Filme:\n"
+                        + "3- Cadastrar novo Filme.\n"
+                        + "4- Mostrar Lista de Filmes Cadastrados.\n"
+                        + "5- Mostrar Fila de transferencia.\n"
+                        + "6- Mostrar Fila de Filmes Em Breve.\n"
+                        + "7- Mostrar Lista de Filmes Em Cartaz Hoje.\n"
+                        + "\n"
+                        + "Serviços de Cinema:\n"
+                        + "8- Cadastrar novo Cinema.\n"
+                        + "9- Mostrar Lista de Cinemas Cadastrados.\n"
+                        + "10- Adicionar Cinema ao Filme.\n"
+                        + "\n"
+                        + "Serviços de Reserva:\n"
+                        + "11- Cadastrar nova Reserva de Poltrona.\n"
+                        + "12- Gerar histórico das reservas.\n"
+                        + "\n"
+                        + "Outros Serviços:\n"
+                        + "13- Transferir - 'Fila de Transferencia' >> 'Fila Filmes em Breve'.\n"
+                        + "14- Transferir - 'Fila Filmes em Breve' >> 'Lista de Filmes em Cartaz Hoje'.\n"
+                        + "\n"
+                        + "Serviços de Busca:\n"
+                        + "15- Imprimir Árvore.\n"
+                        + "16- Imprimir os cinemas de um Filme.\n"
+                        + "\n"
+                        + "99- Sair.\n\n");
 
-            switch (opcao) {
+                if (input == null || input.trim().isEmpty()) {
+                    throw new NumberFormatException();
+                }
 
-                case 1:
-                    GeneroServices.CadastrarGenero(listaGenero, arvoreGeneroFilmeCinemaPoltrona);
-                    break;
+                opcao = Integer.parseInt(input);
 
-                case 2:
-                    GeneroServices.MostrarListaGenero(listaGenero);
-                    break;
+                switch (opcao) {
 
-                case 3:
-                    FilmeServices.CadastroFilme(listaFilmes, listaGenero, filaDeTransferencia, arvoreGeneroFilmeCinemaPoltrona);
-                    break;
+                    case 1:
+                        GeneroServices.CadastrarGenero(listaGenero, arvoreGeneroFilmeCinemaPoltrona);
+                        break;
 
-                case 4:
-                    FilmeServices.MostrarListaFilmeCadastrados(listaFilmes);
-                    break;
+                    case 2:
+                        GeneroServices.MostrarListaGenero(listaGenero);
+                        break;
 
-                case 5:
-                    FilmeServices.MostrarFilaDeTransferencia(filaDeTransferencia);
-                    break;
+                    case 3:
+                        FilmeServices.CadastroFilme(listaFilmes, listaGenero, filaDeTransferencia, arvoreGeneroFilmeCinemaPoltrona);
+                        break;
 
-                case 6:
-                    FilmeServices.MostrarFilaEmBreve(filaFilmesEmBreve);
-                    break;
+                    case 4:
+                        FilmeServices.MostrarListaFilmeCadastrados(listaFilmes);
+                        break;
 
-                case 7:
-                    FilmeServices.MostrarListaEmCartazHoje(listaFilmeHoje);
-                    break;
+                    case 5:
+                        FilmeServices.MostrarFilaDeTransferencia(filaDeTransferencia);
+                        break;
 
-                case 8:
-                    CinemaServices.CadastrarCinema(listaCinemas, quantidadeDePoltronas);
-                    break;
+                    case 6:
+                        FilmeServices.MostrarFilaEmBreve(filaFilmesEmBreve);
+                        break;
 
-                case 9:
-                    CinemaServices.MostrarCinemasCadastrados(listaCinemas);
-                    break;
+                    case 7:
+                        FilmeServices.MostrarListaEmCartazHoje(listaFilmeHoje);
+                        break;
 
-                case 10:
-                    FilmeServices.FilmeAddCinema(listaFilmeHoje, listaCinemas, arvoreGeneroFilmeCinemaPoltrona);
-                    break;
+                    case 8:
+                        CinemaServices.CadastrarCinema(listaCinemas, quantidadeDePoltronas);
+                        break;
 
-                case 11:
-                    PoltronaReservarServices.CadastrarReservaPoltrona(listaFilmes, listaCinemas, pilhaHistoricoDeReserva, arvoreGeneroFilmeCinemaPoltrona);
-                    break;
+                    case 9:
+                        CinemaServices.MostrarCinemasCadastrados(listaCinemas);
+                        break;
 
-                case 12:
-                    PoltronaReservarServices.GerarHistoricoDasPoltronasReservadas(pilhaHistoricoDeReserva);
-                    break;
+                    case 10:
+                        FilmeServices.FilmeAddCinema(listaFilmeHoje, listaCinemas, arvoreGeneroFilmeCinemaPoltrona);
+                        break;
 
-                case 13:
-                    if (filaDeTransferencia.vazia()) {
-                        JOptionPane.showMessageDialog(null, "A Fila de Transferencia encontra-se vazia.");
-                    } else {
-                        filaFilmesEmBreve.enfileirar(filaDeTransferencia.desenfileirar());
-                        filaDeTransferencia.exibeFilaDeTransferencia();
-                        filaFilmesEmBreve.exibeFilaEmBreve();
-                    }
-                    break;
+                    case 11:
+                        PoltronaReservarServices.CadastrarReservaPoltrona(listaFilmes, listaCinemas, pilhaHistoricoDeReserva, arvoreGeneroFilmeCinemaPoltrona);
+                        break;
 
-                case 14:
-                    if (filaFilmesEmBreve.vazia()) {
-                        JOptionPane.showMessageDialog(null, "A Fila de Filmes Em Breve encontra-se vazia.");
-                    } else {
-                        listaFilmeHoje.insereNo_fim(new IntNoSimples(filaFilmesEmBreve.desenfileirar()));
-                        filaFilmesEmBreve.exibeFilaEmBreve();
-                        listaFilmeHoje.exibeListaEmCartazHojeJOPT();
-                    }
-                    break;
+                    case 12:
+                        PoltronaReservarServices.GerarHistoricoDasPoltronasReservadas(pilhaHistoricoDeReserva);
+                        break;
 
-                case 15:
-                    arvoreGeneroFilmeCinemaPoltrona.exibirArvore();
-                    break;
+                    case 13:
+                        if (filaDeTransferencia.vazia()) {
+                            JOptionPane.showMessageDialog(null, "A Fila de Transferencia encontra-se vazia.");
+                        } else {
+                            filaFilmesEmBreve.enfileirar(filaDeTransferencia.desenfileirar());
+                            filaDeTransferencia.exibeFilaDeTransferencia();
+                            filaFilmesEmBreve.exibeFilaEmBreve();
+                        }
+                        break;
 
-                case 16:
+                    case 14:
+                        if (filaFilmesEmBreve.vazia()) {
+                            JOptionPane.showMessageDialog(null, "A Fila de Filmes Em Breve encontra-se vazia.");
+                        } else {
+                            listaFilmeHoje.insereNo_fim(new IntNoSimples(filaFilmesEmBreve.desenfileirar()));
+                            filaFilmesEmBreve.exibeFilaEmBreve();
+                            listaFilmeHoje.exibeListaEmCartazHojeJOPT();
+                        }
+                        break;
 
-                    Filme filmeSelecionado2 = FilmeServices.SelecionarFilmeEmCartaz(listaFilmeHoje);
+                    case 15:
+                        arvoreGeneroFilmeCinemaPoltrona.exibirArvore();
+                        break;
 
-                    arvoreGeneroFilmeCinemaPoltrona
-                            .exibirArvore(
-                                    arvoreGeneroFilmeCinemaPoltrona.buscaNodo(
-                                            filmeSelecionado2,
-                                            arvoreGeneroFilmeCinemaPoltrona.getRaiz()),
-                                    true);
-                    break;
+                    case 16:
 
-                case 99:
-                    System.exit(0);
-                    break;
+                        Filme filmeSelecionado2 = FilmeServices.SelecionarFilmeEmCartaz(listaFilmeHoje);
 
-                default:
-                    JOptionPane.showMessageDialog(null,
-                            "Por favor, selecione uma opção válida.");
+                        arvoreGeneroFilmeCinemaPoltrona
+                                .exibirArvore(
+                                        arvoreGeneroFilmeCinemaPoltrona.buscaNodo(
+                                                filmeSelecionado2,
+                                                arvoreGeneroFilmeCinemaPoltrona.getRaiz()),
+                                        true);
+                        break;
+
+                    case 99:
+                        System.exit(0);
+                        break;
+
+                    default:
+                        JOptionPane.showMessageDialog(null,
+                                "Por favor, selecione uma opção válida.");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Por favor, selecione uma opção do painel.");
             }
         }
 
