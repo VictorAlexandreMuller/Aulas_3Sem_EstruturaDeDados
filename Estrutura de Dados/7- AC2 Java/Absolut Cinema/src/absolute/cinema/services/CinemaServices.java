@@ -53,18 +53,25 @@ public class CinemaServices {
         }
 
         String escolhaCinema = JOptionPane.showInputDialog(null,
-                "Escolha o cinema que deseja realizar a reserva:\n" + opcoesCinema.toString());
+                "Escolha o Cinema:\n" + opcoesCinema.toString());
 
         if (escolhaCinema == null || escolhaCinema.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Opção inválida.");
             return null;
         }
 
-        int escolha = Integer.parseInt(escolhaCinema) - 1;
+        int escolha;
+
+        try {
+            escolha = Integer.parseInt(escolhaCinema) - 1;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Opção inválida.");
+            return null;
+        }
 
         if (escolha < 0 || escolha >= listaCinemas.ContarNos()) {
             JOptionPane.showMessageDialog(null,
-                    "Opção inválida. Por favor, insira um número válido.");
+                    "Opção inválida.");
             return null;
         }
 

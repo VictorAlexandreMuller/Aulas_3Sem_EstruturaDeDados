@@ -6,11 +6,13 @@ public class PoltronaReservar {
     private int id;
     
     private int numero;
+    private Filme filme;
     private Cinema cinema;
 
-    public PoltronaReservar(int numero, Cinema cinema) {
+    public PoltronaReservar(int numero, Filme filme, Cinema cinema) {
         this.id = proximoId++;
         this.numero = numero;
+        this.filme = filme;
         this.cinema = cinema;
     }
 
@@ -37,6 +39,14 @@ public class PoltronaReservar {
     public void setCinema(Cinema cinema) {
         this.cinema = cinema;
     }
+    
+    public Filme getFilme() {
+        return filme;
+    }
+
+    public void setFilme(Filme filme) {
+        this.filme = filme;
+    }
 
     @Override
     public String toString() {
@@ -44,8 +54,7 @@ public class PoltronaReservar {
     }
     
     public String imprimirCadastroPoltrona() {
-        return "ID: " + id + " - Cinema: " + cinema + " - Poltrona: " + numero + ".";
-
+        return "ID: " + id + " - Reserva do Filme: ''" + filme + "'', no Cinema: ''" + cinema + "'', na Poltrona: " + numero + ".";
     }
     
 }
