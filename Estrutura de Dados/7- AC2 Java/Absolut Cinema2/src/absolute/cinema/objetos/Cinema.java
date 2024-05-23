@@ -1,8 +1,7 @@
 package absolute.cinema.objetos;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JOptionPane;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Cinema {
 
@@ -10,16 +9,13 @@ public class Cinema {
     private int id;
     private String nome;
     private int quantidadePoltronas;
-    private List<Boolean> poltronasDisponiveis;
+    private Map<Filme, boolean[]> poltronasReservadasPorFilme;
 
     public Cinema(String nome, int quantidadePoltronas) {
         this.id = proximoId++;
         this.nome = nome;
         this.quantidadePoltronas = quantidadePoltronas;
-        this.poltronasDisponiveis = new ArrayList<>(quantidadePoltronas);
-        for (int i = 0; i < quantidadePoltronas; i++) {
-            poltronasDisponiveis.add(true);
-        }
+        this.poltronasReservadasPorFilme = new HashMap<>();
     }
 
     public int getId() {
@@ -46,24 +42,19 @@ public class Cinema {
         this.quantidadePoltronas = quantidadePoltronas;
     }
 
-    public boolean reservarPoltrona(int numeroPoltrona) {
+    public boolean reservarPoltrona(int numeroPoltrona, Filme filme) {
         if (numeroPoltrona < 1 || numeroPoltrona > quantidadePoltronas) {
-            JOptionPane.showMessageDialog(null, "Número da poltrona inválido.");
-            ;
+            return false;
         }
-        if (poltronasDisponiveis.get(numeroPoltrona - 1)) {
-            poltronasDisponiveis.set(numeroPoltrona - 1, false);
-            return true; // Poltrona pode ser reservada
-        } else {
-            return false; // Poltrona ja reservada
-        }
-    }
 
-    public boolean isPoltronaDisponivel(int numeroPoltrona) {
-        if (numeroPoltrona < 1 || numeroPoltrona > quantidadePoltronas) {
-            throw new IllegalArgumentException("Número da poltrona inválido.");
+        boolean[] poltronasReservadas = poltronasReservadasPorFilme.getOrDefault(filme, new boolean[quantidadePoltronas]);
+        if (poltronasReservadas[numeroPoltrona - 1]) {
+            return false; // Poltrona já reservada
         }
-        return poltronasDisponiveis.get(numeroPoltrona - 1);
+
+        poltronasReservadas[numeroPoltrona - 1] = true;
+        poltronasReservadasPorFilme.put(filme, poltronasReservadas);
+        return true; // Poltrona reservada com sucesso
     }
 
     @Override
