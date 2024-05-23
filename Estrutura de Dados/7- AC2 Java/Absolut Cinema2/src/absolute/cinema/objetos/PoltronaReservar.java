@@ -50,11 +50,15 @@ public class PoltronaReservar {
 
     @Override
     public String toString() {
-        return "Poltrona: " + numero + ".";
+        return "" + numero;
     }
     
     public String imprimirCadastroPoltrona() {
         return "ID: " + id + " - Reserva do Filme: ''" + filme + "'', no Cinema: ''" + cinema + "'', na Poltrona: " + numero + ".";
+    }
+    
+    public int imrpimirNumeroPoltrona() {
+        return numero;
     }
     
 }
