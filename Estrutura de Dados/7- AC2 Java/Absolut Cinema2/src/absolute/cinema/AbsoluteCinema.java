@@ -11,6 +11,7 @@ import absolute.cinema.services.GeneroServices;
 import absolute.cinema.services.FilmeServices;
 import absolute.cinema.services.PoltronaReservarServices;
 import absolute.cinema.utils.ArvoreNaria;
+import absolute.cinema.utils.Nodo;
 
 public class AbsoluteCinema {
 
@@ -66,8 +67,11 @@ public class AbsoluteCinema {
                         + "14- Transferir - 'Fila Filmes em Breve' >> 'Lista de Filmes em Cartaz Hoje'.\n"
                         + "\n"
                         + "Serviços de Busca:\n"
-                        + "15- Imprimir Árvore.\n"
-                        + "16- Imprimir os cinemas de um Filme.\n"
+                        + "15- Imprimir Árvore inline inteira.\n"
+                        + "16- Imprimir Árvore inline a partir de um nó.\n"
+                        + "\n"
+                        + "17- Imprimir Árvore growth inteira.\n"
+                        + "18- Imprimir Árvore growth a partir de um nó.\n"
                         + "\n"
                         + "99- Sair.\n\n");
 
@@ -161,6 +165,25 @@ public class AbsoluteCinema {
                                                 filmeSelecionado2,
                                                 arvoreGeneroFilmeCinemaPoltrona.getRaiz()),
                                         true);
+                        break;
+
+                    case 17:
+
+                        arvoreGeneroFilmeCinemaPoltrona.exibirArvoreInteiraAPartirDaRaiz();
+
+                        break;
+
+                    case 18:
+
+                        Filme filmeSelecionado3 = FilmeServices.SelecionarFilmeEmCartaz(listaFilmeHoje);
+                        Nodo nodoFilmeSelecionado = arvoreGeneroFilmeCinemaPoltrona.buscaNodo(filmeSelecionado3, arvoreGeneroFilmeCinemaPoltrona.getRaiz());
+
+                        if (nodoFilmeSelecionado != null) {
+                            arvoreGeneroFilmeCinemaPoltrona.exibirArvoreAPartirDeUmNodo(nodoFilmeSelecionado);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "O filme selecionado não está cadastrado na árvore.");
+                        }
+
                         break;
 
                     case 99:

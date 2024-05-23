@@ -3,6 +3,7 @@ package absolute.cinema.services;
 import absolute.cinema.objetos.Cinema;
 import absolute.cinema.utils.IntNoSimples;
 import absolute.cinema.utils.ListaEncadeada;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class CinemaServices {
@@ -82,6 +83,45 @@ public class CinemaServices {
 
         return noEscolhido.valorCinema;
 
+    }
+    
+    public static Cinema SelecionarCinemaArrayList(List<Cinema> cinemas) {
+        StringBuilder opcoesCinema = new StringBuilder();
+        int posicao = 0;
+
+        for (Cinema cinema : cinemas) {
+            opcoesCinema.append(posicao + 1)
+                    .append(": ")
+                    .append(cinema.getNome())
+                    .append(" - Quantidade máxima de poltronas: ")
+                    .append(cinema.getQuantidadePoltronas())
+                    .append("\n");
+            posicao++;
+        }
+
+        String escolhaCinema = JOptionPane.showInputDialog(null,
+                "Escolha o Cinema:\n" + opcoesCinema.toString());
+
+        if (escolhaCinema == null || escolhaCinema.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Opção inválida.");
+            return null;
+        }
+
+        int escolha;
+
+        try {
+            escolha = Integer.parseInt(escolhaCinema) - 1;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Opção inválida.");
+            return null;
+        }
+
+        if (escolha < 0 || escolha >= cinemas.size()) {
+            JOptionPane.showMessageDialog(null, "Opção inválida.");
+            return null;
+        }
+
+        return cinemas.get(escolha);
     }
 
 }

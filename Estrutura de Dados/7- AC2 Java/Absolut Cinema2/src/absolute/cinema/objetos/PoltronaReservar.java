@@ -50,7 +50,7 @@ public class PoltronaReservar {
 
     @Override
     public String toString() {
-        return "" + numero;
+        return " " + numero;
     }
     
     public String imprimirCadastroPoltrona() {
