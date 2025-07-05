@@ -69,7 +69,7 @@ public class AbsoluteCinema {
                         + "Serviços de Busca:\n"
                         + "15- Imprimir Árvore inline inteira.\n"
                         + "16- Imprimir Árvore inline a partir de um nó.\n"
-                        + "\n"
+                        
                         + "17- Imprimir Árvore growth inteira.\n"
                         + "18- Imprimir Árvore growth a partir de um nó.\n"
                         + "\n"
